@@ -8,12 +8,13 @@ namespace OpenHtmlToPdf.Tests
     [TestClass]
     public class HtmlToPdfConversion
     {
+        private const string HtmlDocumentFormat = "<!DOCTYPE html><html><head><meta charset='UTF-8'><title></title></head><body>{0}</body></html>";
+
         [TestMethod]
         public void HTML_document_is_converted_to_PDF_document()
         {
             const string expectedDocumentContent = "Expected document content";
-            const string htmlDocumentFormat = "<!DOCTYPE html><html><head><meta charset='UTF-8'><title></title></head><body>{0}</body></html>";
-            var html = string.Format(htmlDocumentFormat, expectedDocumentContent);
+            var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
 
             var result = HtmlToPdfConverter.ConvertToPdf(html);
 
@@ -24,8 +25,7 @@ namespace OpenHtmlToPdf.Tests
         public void Convert_multiple_documents_simultaneously()
         {
             const string expectedDocumentContent = "Expected document content";
-            const string htmlDocumentFormat = "<!DOCTYPE html><html><head><meta charset='UTF-8'><title></title></head><body>{0}</body></html>";
-            var html = string.Format(htmlDocumentFormat, expectedDocumentContent);
+            var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
             const int numbeOfDocuments = 10;
             var results = Enumerable
                 .Range(0, numbeOfDocuments)

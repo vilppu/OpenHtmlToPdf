@@ -8,8 +8,8 @@
     <ProjectGuid>{023DF833-B252-48B3-B6AF-DBBB13E39B13}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebKitHtmlToPdf</RootNamespace>
-    <AssemblyName>WebKitHtmlToPdf</AssemblyName>
+    <RootNamespace>OpenHtmlToPdf</RootNamespace>
+    <AssemblyName>OpenHtmlToPdf</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -119,12 +119,12 @@
     <Compile Include="TuesPechkin\PechkinStatic.cs" />
     <Compile Include="TuesPechkin\IPechkin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TuesPechkin\WkhtmltoxApi.cs" />
+    <Compile Include="Wkhtmltopdf\WkhtmltoxApi.cs" />
     <Compile Include="Settings\GlobalSettings.cs" />
     <Compile Include="Settings\ObjectSettings.cs" />
     <Compile Include="Settings\SettingApplicator.cs" />
     <Compile Include="TuesPechkin\SimplePechkin.cs" />
-    <Compile Include="TuesPechkin\WkhtmltoxLibrary.cs" />
+    <Compile Include="Wkhtmltopdf\WkhtmltopdfDll.cs" />
     <None Include="Settings\TableOfContentsSettings.cs" />
     <Compile Include="TuesPechkin\Unit.cs" />
     <Compile Include="TuesPechkin\Util\IntCallback.cs" />

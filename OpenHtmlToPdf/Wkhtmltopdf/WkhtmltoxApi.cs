@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using OpenHtmlToPdf.Util;
 
-namespace OpenHtmlToPdf.TuesPechkin
+namespace OpenHtmlToPdf.Wkhtmltopdf
 {
     [Serializable]
     static class WkhtmltoxApi

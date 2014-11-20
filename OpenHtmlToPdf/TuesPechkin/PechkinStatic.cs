@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 using OpenHtmlToPdf.Util;
+using OpenHtmlToPdf.Wkhtmltopdf;
 
 namespace OpenHtmlToPdf.TuesPechkin
 {

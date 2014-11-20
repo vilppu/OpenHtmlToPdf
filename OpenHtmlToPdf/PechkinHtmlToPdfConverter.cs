@@ -1,6 +1,7 @@
 ﻿using System.Drawing.Printing;
 using OpenHtmlToPdf.Settings;
 using OpenHtmlToPdf.TuesPechkin;
+using OpenHtmlToPdf.Wkhtmltopdf;
 
 namespace OpenHtmlToPdf
 {
@@ -10,7 +11,7 @@ namespace OpenHtmlToPdf
         {
             var document = GetDocument(html);
 
-            using (new WkhtmltoxLibrary())
+            using (new WkhtmltopdfDll())
             {
                 return new SimplePechkin().Convert(document);
             }
