@@ -104,12 +104,12 @@
     </Compile>
     <Compile Include="HtmlToPdfConverter.cs" />
     <Compile Include="TuesPechkin\HtmlToPdfDocument.cs" />
-    <Compile Include="EventHandlers\BeginEventHandler.cs" />
-    <Compile Include="EventHandlers\ErrorEventHandler.cs" />
-    <Compile Include="EventHandlers\FinishEventHandler.cs" />
-    <Compile Include="EventHandlers\PhaseChangedEventHandler.cs" />
-    <Compile Include="EventHandlers\ProgressChangedEventHandler.cs" />
-    <Compile Include="EventHandlers\WarningEventHandler.cs" />
+    <Compile Include="TuesPechkin\EventHandlers\BeginEventHandler.cs" />
+    <Compile Include="TuesPechkin\EventHandlers\ErrorEventHandler.cs" />
+    <Compile Include="TuesPechkin\EventHandlers\FinishEventHandler.cs" />
+    <Compile Include="TuesPechkin\EventHandlers\PhaseChangedEventHandler.cs" />
+    <Compile Include="TuesPechkin\EventHandlers\ProgressChangedEventHandler.cs" />
+    <Compile Include="TuesPechkin\EventHandlers\WarningEventHandler.cs" />
     <Compile Include="TuesPechkin\FooterSettings.cs" />
     <Compile Include="TuesPechkin\HeaderSettings.cs" />
     <Compile Include="TuesPechkin\LoadSettings.cs" />
@@ -125,11 +125,11 @@
     <Compile Include="TuesPechkin\SimplePechkin.cs" />
     <None Include="TuesPechkin\TableOfContentsSettings.cs" />
     <Compile Include="TuesPechkin\Unit.cs" />
-    <Compile Include="Util\IntCallback.cs" />
-    <Compile Include="Util\RetroDelegates.cs" />
-    <Compile Include="Util\StringCallback.cs" />
-    <Compile Include="Util\UTF8Marshaller.cs" />
-    <Compile Include="Util\VoidCallback.cs" />
+    <Compile Include="TuesPechkin\Util\IntCallback.cs" />
+    <Compile Include="TuesPechkin\Util\RetroDelegates.cs" />
+    <Compile Include="TuesPechkin\Util\StringCallback.cs" />
+    <Compile Include="TuesPechkin\Util\UTF8Marshaller.cs" />
+    <Compile Include="TuesPechkin\Util\VoidCallback.cs" />
     <Compile Include="TuesPechkin\WebSettings.cs" />
     <Compile Include="TuesPechkin\WinApiHelper.cs" />
     <Compile Include="TuesPechkin\WkhtmltopdfSettingAttribute.cs" />
