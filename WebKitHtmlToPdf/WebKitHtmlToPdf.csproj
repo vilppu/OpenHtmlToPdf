@@ -103,6 +103,7 @@
       <DependentUpon>BundledFiles.resx</DependentUpon>
     </Compile>
     <Compile Include="HtmlToPdfConverter.cs" />
+    <Compile Include="PechkinHtmlToPdfConverter.cs" />
     <Compile Include="TuesPechkin\HtmlToPdfDocument.cs" />
     <Compile Include="TuesPechkin\EventHandlers\BeginEventHandler.cs" />
     <Compile Include="TuesPechkin\EventHandlers\ErrorEventHandler.cs" />
@@ -110,29 +111,30 @@
     <Compile Include="TuesPechkin\EventHandlers\PhaseChangedEventHandler.cs" />
     <Compile Include="TuesPechkin\EventHandlers\ProgressChangedEventHandler.cs" />
     <Compile Include="TuesPechkin\EventHandlers\WarningEventHandler.cs" />
-    <Compile Include="TuesPechkin\FooterSettings.cs" />
-    <Compile Include="TuesPechkin\HeaderSettings.cs" />
-    <Compile Include="TuesPechkin\LoadSettings.cs" />
-    <Compile Include="TuesPechkin\MarginSettings.cs" />
-    <Compile Include="TuesPechkin\PechkinPaperSize.cs" />
+    <Compile Include="Settings\FooterSettings.cs" />
+    <Compile Include="Settings\HeaderSettings.cs" />
+    <Compile Include="Settings\LoadSettings.cs" />
+    <Compile Include="Settings\MarginSettings.cs" />
+    <Compile Include="Settings\PaperSize.cs" />
     <Compile Include="TuesPechkin\PechkinStatic.cs" />
     <Compile Include="TuesPechkin\IPechkin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TuesPechkin\Wkhtmltox.cs" />
-    <Compile Include="TuesPechkin\GlobalSettings.cs" />
-    <Compile Include="TuesPechkin\ObjectSettings.cs" />
-    <Compile Include="TuesPechkin\SettingApplicator.cs" />
+    <Compile Include="TuesPechkin\WkhtmltoxApi.cs" />
+    <Compile Include="Settings\GlobalSettings.cs" />
+    <Compile Include="Settings\ObjectSettings.cs" />
+    <Compile Include="Settings\SettingApplicator.cs" />
     <Compile Include="TuesPechkin\SimplePechkin.cs" />
-    <None Include="TuesPechkin\TableOfContentsSettings.cs" />
+    <Compile Include="TuesPechkin\WkhtmltoxLibrary.cs" />
+    <None Include="Settings\TableOfContentsSettings.cs" />
     <Compile Include="TuesPechkin\Unit.cs" />
     <Compile Include="TuesPechkin\Util\IntCallback.cs" />
     <Compile Include="TuesPechkin\Util\RetroDelegates.cs" />
     <Compile Include="TuesPechkin\Util\StringCallback.cs" />
     <Compile Include="TuesPechkin\Util\UTF8Marshaller.cs" />
     <Compile Include="TuesPechkin\Util\VoidCallback.cs" />
-    <Compile Include="TuesPechkin\WebSettings.cs" />
+    <Compile Include="Settings\WebSettings.cs" />
     <Compile Include="TuesPechkin\WinApiHelper.cs" />
-    <Compile Include="TuesPechkin\WkhtmltopdfSettingAttribute.cs" />
+    <Compile Include="Settings\SettingAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\wkhtmltox_32.dll.gz" />

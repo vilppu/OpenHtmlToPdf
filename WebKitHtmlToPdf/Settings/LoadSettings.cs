@@ -1,16 +1,10 @@
 ﻿using System;
 
-namespace WebKitHtmlToPdf.TuesPechkin
+namespace WebKitHtmlToPdf.Settings
 {
     [Serializable]
     class LoadSettings
     {
-        public LoadSettings()
-        {
-            this.ErrorHandling = ContentErrorHandling.Ignore;
-            this.StopSlowScript = true;
-        }
-
         public enum ContentErrorHandling
         {
             Abort,
@@ -18,31 +12,37 @@ namespace WebKitHtmlToPdf.TuesPechkin
             Ignore
         }
 
-        [WkhtmltopdfSetting("load.blockLocalFileAccess")]
+        public LoadSettings()
+        {
+            ErrorHandling = ContentErrorHandling.Ignore;
+            StopSlowScript = true;
+        }
+
+        [Setting("load.blockLocalFileAccess")]
         public bool BlockLocalFileAccess { get; set; }
 
-        [WkhtmltopdfSetting("load.debugJavascript")]
+        [Setting("load.debugJavascript")]
         public bool DebugJavascript { get; set; }
 
-        [WkhtmltopdfSetting("load.loadErrorHandling")]
+        [Setting("load.loadErrorHandling")]
         public ContentErrorHandling ErrorHandling { get; set; }
 
-        [WkhtmltopdfSetting("load.password")]
+        [Setting("load.password")]
         public string Password { get; set; }
 
-        [WkhtmltopdfSetting("load.proxy")]
+        [Setting("load.proxy")]
         public string Proxy { get; set; }
 
-        [WkhtmltopdfSetting("load.jsdelay")]
+        [Setting("load.jsdelay")]
         public int? RenderDelay { get; set; }
 
-        [WkhtmltopdfSetting("load.stopSlowScript")]
+        [Setting("load.stopSlowScript")]
         public bool StopSlowScript { get; set; }
 
-        [WkhtmltopdfSetting("load.username")]
+        [Setting("load.username")]
         public string Username { get; set; }
 
-        [WkhtmltopdfSetting("load.zoomFactor")]
+        [Setting("load.zoomFactor")]
         public double? ZoomFactor { get; set; }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Reflection;
+using WebKitHtmlToPdf.TuesPechkin;
 
-namespace WebKitHtmlToPdf.TuesPechkin
+namespace WebKitHtmlToPdf.Settings
 {
     internal static class SettingApplicator
     {
@@ -19,12 +20,12 @@ namespace WebKitHtmlToPdf.TuesPechkin
             {
                 var attributes = property.GetCustomAttributes(true);
 
-                if (attributes.Length == 0 || !(attributes[0] is WkhtmltopdfSettingAttribute))
+                if (attributes.Length == 0 || !(attributes[0] is SettingAttribute))
                 {
                     continue;
                 }
 
-                var attribute = attributes[0] as WkhtmltopdfSettingAttribute;
+                var attribute = attributes[0] as SettingAttribute;
                 var rawValue = property.GetValue(settings, null);
 
                 if (rawValue == null)
@@ -53,14 +54,11 @@ namespace WebKitHtmlToPdf.TuesPechkin
             {
                 return ((double?)value).Value.ToString("0.##", CultureInfo.InvariantCulture);
             }
-            else if (type == typeof(bool?) || type == typeof(bool))
+            if (type == typeof(bool?) || type == typeof(bool))
             {
                 return ((bool?)value).Value ? "true" : "false";
             }
-            else
-            {
-                return value.ToString();
-            }
+            return value.ToString();
         }
     }
 }

@@ -26,7 +26,7 @@ namespace WebKitHtmlToPdf.Tests
             const string expectedDocumentContent = "Expected document content";
             const string htmlDocumentFormat = "<!DOCTYPE html><html><head><meta charset='UTF-8'><title></title></head><body>{0}</body></html>";
             var html = string.Format(htmlDocumentFormat, expectedDocumentContent);
-            const int numbeOfDocuments = 1;
+            const int numbeOfDocuments = 10;
             var results = Enumerable
                 .Range(0, numbeOfDocuments)
                 .Select(i => Task.Factory.StartNew(() => HtmlToPdfConverter.ConvertToPdf(html)))

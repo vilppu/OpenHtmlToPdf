@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using WebKitHtmlToPdf.Settings;
+
 namespace WebKitHtmlToPdf.TuesPechkin
 {
     [Serializable]

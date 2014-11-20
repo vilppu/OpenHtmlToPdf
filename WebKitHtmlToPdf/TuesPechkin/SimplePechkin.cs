@@ -1,5 +1,7 @@
 ﻿using System;
 using WebKitHtmlToPdf.EventHandlers;
+using WebKitHtmlToPdf.Settings;
+using WebKitHtmlToPdf.TuesPechkin.EventHandlers;
 using WebKitHtmlToPdf.Util;
 
 namespace WebKitHtmlToPdf.TuesPechkin

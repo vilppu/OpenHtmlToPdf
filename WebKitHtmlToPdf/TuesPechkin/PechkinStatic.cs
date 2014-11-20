@@ -14,24 +14,24 @@ namespace WebKitHtmlToPdf.TuesPechkin
     {
         public static IntPtr CreateGlobalSetting()
         {
-            return Wkhtmltox.wkhtmltopdf_create_global_settings();
+            return WkhtmltoxApi.wkhtmltopdf_create_global_settings();
         }
 
         public static IntPtr CreateObjectSettings()
         {
-            return Wkhtmltox.wkhtmltopdf_create_object_settings();
+            return WkhtmltoxApi.wkhtmltopdf_create_object_settings();
         }
 
         public static int SetGlobalSetting(IntPtr setting, string name, string value)
         {
-            return Wkhtmltox.wkhtmltopdf_set_global_setting(setting, name, value);
+            return WkhtmltoxApi.wkhtmltopdf_set_global_setting(setting, name, value);
         }
 
         public static string GetGlobalSetting(IntPtr setting, string name)
         {
             var buf = new byte[2048];
 
-            Wkhtmltox.wkhtmltopdf_get_global_setting(setting, name, ref buf, buf.Length);
+            WkhtmltoxApi.wkhtmltopdf_get_global_setting(setting, name, ref buf, buf.Length);
 
             int walk = 0;
             while (walk < buf.Length && buf[walk] != 0)
@@ -47,14 +47,14 @@ namespace WebKitHtmlToPdf.TuesPechkin
 
         public static int SetObjectSetting(IntPtr setting, string name, string value)
         {
-            return Wkhtmltox.wkhtmltopdf_set_object_setting(setting, name, value);
+            return WkhtmltoxApi.wkhtmltopdf_set_object_setting(setting, name, value);
         }
 
         public static string GetObjectSetting(IntPtr setting, string name)
         {
             var buf = new byte[2048];
 
-            Wkhtmltox.wkhtmltopdf_get_object_setting(setting, name, ref buf, buf.Length);
+            WkhtmltoxApi.wkhtmltopdf_get_object_setting(setting, name, ref buf, buf.Length);
 
             int walk = 0;
             while (walk < buf.Length && buf[walk] != 0)
@@ -70,83 +70,83 @@ namespace WebKitHtmlToPdf.TuesPechkin
 
         public static IntPtr CreateConverter(IntPtr globalSettings)
         {
-            return Wkhtmltox.wkhtmltopdf_create_converter(globalSettings);
+            return WkhtmltoxApi.wkhtmltopdf_create_converter(globalSettings);
         }
 
         public static void DestroyConverter(IntPtr converter)
         {
-            Wkhtmltox.wkhtmltopdf_destroy_converter(converter);
+            WkhtmltoxApi.wkhtmltopdf_destroy_converter(converter);
         }
 
         public static void SetWarningCallback(IntPtr converter, StringCallback callback)
         {
-            Wkhtmltox.wkhtmltopdf_set_warning_callback(converter, callback);
+            WkhtmltoxApi.wkhtmltopdf_set_warning_callback(converter, callback);
         }
 
         public static void SetErrorCallback(IntPtr converter, StringCallback callback)
         {
-            Wkhtmltox.wkhtmltopdf_set_error_callback(converter, callback);
+            WkhtmltoxApi.wkhtmltopdf_set_error_callback(converter, callback);
         }
 
         public static void SetFinishedCallback(IntPtr converter, IntCallback callback)
         {
-            Wkhtmltox.wkhtmltopdf_set_finished_callback(converter, callback);
+            WkhtmltoxApi.wkhtmltopdf_set_finished_callback(converter, callback);
         }
 
         public static void SetPhaseChangedCallback(IntPtr converter, VoidCallback callback)
         {
-            Wkhtmltox.wkhtmltopdf_set_phase_changed_callback(converter, callback);
+            WkhtmltoxApi.wkhtmltopdf_set_phase_changed_callback(converter, callback);
         }
 
         public static void SetProgressChangedCallback(IntPtr converter, IntCallback callback)
         {
-            Wkhtmltox.wkhtmltopdf_set_progress_changed_callback(converter, callback);
+            WkhtmltoxApi.wkhtmltopdf_set_progress_changed_callback(converter, callback);
         }
 
         public static bool PerformConversion(IntPtr converter)
         {
-            return Wkhtmltox.wkhtmltopdf_convert(converter) != 0;
+            return WkhtmltoxApi.wkhtmltopdf_convert(converter) != 0;
         }
 
         public static void AddObject(IntPtr converter, IntPtr objectConfig, string html)
         {
-            Wkhtmltox.wkhtmltopdf_add_object(converter, objectConfig, html);
+            WkhtmltoxApi.wkhtmltopdf_add_object(converter, objectConfig, html);
         }
 
         public static void AddObject(IntPtr converter, IntPtr objectConfig, byte[] html)
         {
-            Wkhtmltox.wkhtmltopdf_add_object(converter, objectConfig, html);
+            WkhtmltoxApi.wkhtmltopdf_add_object(converter, objectConfig, html);
         }
 
         public static int GetPhaseNumber(IntPtr converter)
         {
-            return Wkhtmltox.wkhtmltopdf_current_phase(converter);
+            return WkhtmltoxApi.wkhtmltopdf_current_phase(converter);
         }
 
         public static int GetPhaseCount(IntPtr converter)
         {
-            return Wkhtmltox.wkhtmltopdf_phase_count(converter);
+            return WkhtmltoxApi.wkhtmltopdf_phase_count(converter);
         }
 
         public static string GetPhaseDescription(IntPtr converter, int phase)
         {
-            return Marshal.PtrToStringAnsi(Wkhtmltox.wkhtmltopdf_phase_description(converter, phase));
+            return Marshal.PtrToStringAnsi(WkhtmltoxApi.wkhtmltopdf_phase_description(converter, phase));
         }
 
         public static string GetProgressDescription(IntPtr converter)
         {
-            return Marshal.PtrToStringAnsi(Wkhtmltox.wkhtmltopdf_progress_string(converter));
+            return Marshal.PtrToStringAnsi(WkhtmltoxApi.wkhtmltopdf_progress_string(converter));
         }
 
         public static int GetHttpErrorCode(IntPtr converter)
         {
-            return Wkhtmltox.wkhtmltopdf_http_error_code(converter);
+            return WkhtmltoxApi.wkhtmltopdf_http_error_code(converter);
         }
 
         public static byte[] GetConverterResult(IntPtr converter)
         {
             IntPtr tmp;
-            int len = Wkhtmltox.wkhtmltopdf_get_output(converter, out tmp);
+            int len = WkhtmltoxApi.wkhtmltopdf_get_output(converter, out tmp);
             var output = new byte[len];
             Marshal.Copy(tmp, output, 0, output.Length);
             return output;

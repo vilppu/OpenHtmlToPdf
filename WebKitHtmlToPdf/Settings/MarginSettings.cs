@@ -1,21 +1,22 @@
 ﻿using System;
+using WebKitHtmlToPdf.TuesPechkin;
 
-namespace WebKitHtmlToPdf.TuesPechkin
+namespace WebKitHtmlToPdf.Settings
 {
     [Serializable]
     class MarginSettings
     {
         public MarginSettings()
         {
-            this.Unit = Unit.Inches;
+            Unit = Unit.Inches;
         }
 
         public MarginSettings(double top, double right, double bottom, double left) : this()
         {
-            this.Top = top;
-            this.Right = right;
-            this.Bottom = bottom;
-            this.Left = left;
+            Top = top;
+            Right = right;
+            Bottom = bottom;
+            Left = left;
         }
 
         public double Bottom { get; set; }
@@ -28,14 +29,11 @@ namespace WebKitHtmlToPdf.TuesPechkin
 
         public double All
         {
-            set
-            {
-                this.Top = this.Right = this.Bottom = this.Left = value;
-            }
+            set { Top = Right = Bottom = Left = value; }
         }
 
         /// <summary>
-        /// Defaults to Inches.
+        ///     Defaults to Inches.
         /// </summary>
         public Unit Unit { get; set; }
     }
