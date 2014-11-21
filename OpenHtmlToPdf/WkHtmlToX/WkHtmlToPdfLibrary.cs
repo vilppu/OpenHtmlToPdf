@@ -14,10 +14,10 @@ namespace OpenHtmlToPdf.WkHtmlToX
 
         public static NativeLibrary Load()
         {
-            return NativeLibrary.Load(LibraryFilename, LibraryContent());
+            return NativeLibrary.Load(LibraryFilename, LoadLibraryContent);
         }
 
-        private static byte[] LibraryContent()
+        private static byte[] LoadLibraryContent()
         {
             if (Environment.OSVersion.Platform != PlatformID.Win32NT)
                 throw new PlatformNotSupportedException(String.Format("Platform {0} is not supported", Platform()));

@@ -7,17 +7,17 @@ namespace OpenHtmlToPdf.Assets
     sealed class BundledFile
     {
         private readonly string _bundledFilename;
-        private readonly byte[] _fileContent;
+        private readonly Func<byte[]> _fileContentProvider;
 
-        private BundledFile(string bundledFilename, byte[] fileContent)
+        private BundledFile(string bundledFilename, Func<byte[]> fileContentProvider)
         {
             _bundledFilename = bundledFilename;
-            _fileContent = fileContent;
+            _fileContentProvider = fileContentProvider;
         }
 
-        public static BundledFile From(string bundledFilename, byte[] fileContent)
+        public static BundledFile From(string bundledFilename, Func<byte[]> fileContentProvider)
         {
-            var bundledFile = new BundledFile(bundledFilename, fileContent);
+            var bundledFile = new BundledFile(bundledFilename, fileContentProvider);
 
             bundledFile.CreateIfNotExist();
 
@@ -32,19 +32,21 @@ namespace OpenHtmlToPdf.Assets
         private void CreateIfNotExist()
         {
             if (!File.Exists(FullPathToBundledFile))
-                Create();
+                Create(_fileContentProvider());
         }
 
-        private void Create()
+        private void Create(byte[] fileContent)
         {
             try
             {
                 if (!Directory.Exists(BundledFilesDirectory()))
                     Directory.CreateDirectory(BundledFilesDirectory());
 
+
                 using (var file = File.Open(FullPathToBundledFile, FileMode.Create))
                 {
-                    file.Write(_fileContent, 0, _fileContent.Length);
+
+                    file.Write(fileContent, 0, fileContent.Length);
                 }
             }
             catch (IOException)
