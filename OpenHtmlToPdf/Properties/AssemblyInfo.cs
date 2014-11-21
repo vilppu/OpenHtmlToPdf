@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("OpenHtmlToPdf")]
-[assembly: AssemblyDescription(".NET Wrapper for WkHtmlToPdf static DLL. Allows you to utilize full power of the library.")]
+[assembly: AssemblyDescription(".NET library for rendering HTML documents to PDF format.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Timo Vilppu")]
 [assembly: AssemblyProduct("OpenHtmlToPdf")]
