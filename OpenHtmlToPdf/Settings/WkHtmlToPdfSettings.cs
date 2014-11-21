@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Reflection;
-using OpenHtmlToPdf.WkHtmlToX;
+using OpenHtmlToPdf.Native;
 
 namespace OpenHtmlToPdf.Settings
 {
@@ -9,15 +9,15 @@ namespace OpenHtmlToPdf.Settings
     {
         private const BindingFlags InstanceMember = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
-        public static void ApplySettings(this WkHtmlToPdf wkHtmlToPdf, IntPtr config, object settings, bool global = false)
+        public static void ApplySettings(IntPtr config, object settings, bool global = false)
         {
             foreach (var property in settings.GetType().GetProperties(InstanceMember))
             {
-                ApplySetting(wkHtmlToPdf, config, settings, global, property);
+                ApplySetting(config, settings, global, property);
             }
         }
 
-        private static void ApplySetting(WkHtmlToPdf wkHtmlToPdf, IntPtr config, object settings, bool global,
+        private static void ApplySetting(IntPtr config, object settings, bool global,
             PropertyInfo property)
         {
             var attributes = property.GetCustomAttributes(true);
@@ -39,11 +39,11 @@ namespace OpenHtmlToPdf.Settings
 
             if (global)
             {
-                wkHtmlToPdf.SetGlobalSetting(config, attribute.SettingName, value);
+                 Wkhtmltox.wkhtmltopdf_set_global_setting(config, attribute.SettingName, value);
             }
             else
             {
-                wkHtmlToPdf.SetObjectSetting(config, attribute.SettingName, value);
+                Wkhtmltox.wkhtmltopdf_set_object_setting(config, attribute.SettingName, value);
             }
         }
 

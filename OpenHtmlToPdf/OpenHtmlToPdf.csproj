@@ -107,22 +107,23 @@
       <DependentUpon>BundledFiles.resx</DependentUpon>
     </Compile>
     <Compile Include="Exceptions\HtmlToPdfConversionFailedException.cs" />
+    <Compile Include="IPdfDocument.cs" />
     <Compile Include="Pdf.cs" />
+    <Compile Include="PdfDocument.cs" />
     <Compile Include="Assets\BundledFile.cs" />
-    <Compile Include="HtmlToPdfDocument.cs" />
+    <Compile Include="PdfDocumentSettings.cs" />
     <Compile Include="Settings\FooterSettings.cs" />
     <Compile Include="Settings\HeaderSettings.cs" />
     <Compile Include="Settings\LoadSettings.cs" />
     <Compile Include="Settings\MarginSettings.cs" />
     <Compile Include="Settings\PaperSize.cs" />
-    <Compile Include="WkHtmlToX\WkHtmlToPdf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Native\NativeLibrary.cs" />
     <Compile Include="Native\Wkhtmltox.cs" />
     <Compile Include="Settings\GlobalSettings.cs" />
     <Compile Include="Settings\ObjectSettings.cs" />
     <Compile Include="Settings\WkHtmlToPdfSettings.cs" />
-    <Compile Include="HtmlToPdfConverter.cs" />
+    <Compile Include="HtmlToPdf.cs" />
     <Compile Include="WkHtmlToX\WkHtmlToPdfLibrary.cs" />
     <Compile Include="Assets\ZipArchiveHelper.cs" />
     <None Include="Assets\wkhtmltox.zip" />
