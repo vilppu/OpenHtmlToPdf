@@ -57,7 +57,7 @@
   <ItemGroup>
     <Compile Include="Helpers\TextAssert.cs" />
     <Compile Include="HtmlToPdfConversion.cs" />
-    <Compile Include="Helpers\PdfDocument.cs" />
+    <Compile Include="Helpers\PdfToTextConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

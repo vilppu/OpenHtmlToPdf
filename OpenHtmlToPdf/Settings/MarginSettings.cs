@@ -1,5 +1,4 @@
 ﻿using System;
-using OpenHtmlToPdf.TuesPechkin;
 
 namespace OpenHtmlToPdf.Settings
 {

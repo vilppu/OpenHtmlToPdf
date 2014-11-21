@@ -1,0 +1,33 @@
+﻿using System.IO;
+using System.IO.Compression;
+using System.Linq;
+
+namespace OpenHtmlToPdf.Assets
+{
+    static class ZipArchiveHelper
+    {
+        public static byte[] ReadFile(this ZipArchive wkhtmltoxZipArchive, string libraryFilename)
+        {
+            return wkhtmltoxZipArchive.Entries
+                .Where(e => e.FullName == libraryFilename)
+                .Select(Read).Single();
+        }
+
+        private static byte[] Read(this ZipArchiveEntry zipArchiveEntry)
+        {
+            using (var stream = zipArchiveEntry.Open())
+            {
+                return stream.Read(zipArchiveEntry.Length);
+            }
+        }
+
+        private static byte[] Read(this Stream stream, long length)
+        {
+            var wkhtmltoxContent = new byte[length];
+
+            stream.Read(wkhtmltoxContent, 0, (int)length);
+
+            return wkhtmltoxContent;
+        }
+    }
+}

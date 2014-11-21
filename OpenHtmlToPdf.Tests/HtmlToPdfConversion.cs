@@ -16,9 +16,9 @@ namespace OpenHtmlToPdf.Tests
             const string expectedDocumentContent = "Expected document content";
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
 
-            var result = HtmlToPdfConverter.ConvertToPdf(html);
+            var result = Pdf.From(html);
 
-            TextAssert.Contains(PdfDocument.ReadDocumentContent(result), expectedDocumentContent);
+            TextAssert.Contains(PdfToTextConverter.ToText(result), expectedDocumentContent);
         }
 
         [TestMethod]
@@ -26,16 +26,17 @@ namespace OpenHtmlToPdf.Tests
         {
             const string expectedDocumentContent = "Expected document content";
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
-            const int numbeOfDocuments = 10;
+            const int numbeOfDocuments = 2;
             var results = Enumerable
                 .Range(0, numbeOfDocuments)
-                .Select(i => Task.Factory.StartNew(() => HtmlToPdfConverter.ConvertToPdf(html)))
+                .Select(i => Task.Factory.StartNew(() => Pdf.From(html)))
                 .ToArray();
 
+            // ReSharper disable once CoVariantArrayConversion
             Task.WaitAll(results);
 
             foreach (var result in results)
-                TextAssert.Contains(PdfDocument.ReadDocumentContent(result.Result), expectedDocumentContent);
+                TextAssert.Contains(PdfToTextConverter.ToText(result.Result), expectedDocumentContent);
         }
     }
 }

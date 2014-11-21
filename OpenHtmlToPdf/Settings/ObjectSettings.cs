@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using OpenHtmlToPdf.TuesPechkin;
+using OpenHtmlToPdf.WkHtmlToX;
 
 namespace OpenHtmlToPdf.Settings
 {
@@ -92,17 +92,22 @@ namespace OpenHtmlToPdf.Settings
             }
         }
 
-        internal void ApplyToConverter(IntPtr converter)
+        public void ApplyToConverter(WkHtmlToPdf wkHtmlToPdf, IntPtr converter)
         {
-            IntPtr config = PechkinStatic.CreateObjectSettings();
+            var config = wkHtmlToPdf.CreateObjectSettings();
 
-            SettingApplicator.ApplySettings(config, this);
-            SettingApplicator.ApplySettings(config, HeaderSettings);
-            SettingApplicator.ApplySettings(config, FooterSettings);
-            SettingApplicator.ApplySettings(config, WebSettings);
-            SettingApplicator.ApplySettings(config, LoadSettings);
+            ApplySettings(wkHtmlToPdf, config);
 
-            PechkinStatic.AddObject(converter, config, _data);
+            wkHtmlToPdf.AddObject(converter, config, _data);
+        }
+
+        private void ApplySettings(WkHtmlToPdf wkHtmlToPdf, IntPtr config)
+        {
+            wkHtmlToPdf.ApplySettings(config, this);
+            wkHtmlToPdf.ApplySettings(config, HeaderSettings);
+            wkHtmlToPdf.ApplySettings(config, FooterSettings);
+            wkHtmlToPdf.ApplySettings(config, WebSettings);
+            wkHtmlToPdf.ApplySettings(config, LoadSettings);
         }
     }
 }
