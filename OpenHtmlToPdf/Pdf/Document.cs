@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using OpenHtmlToPdf.WkHtmlToX;
 
 namespace OpenHtmlToPdf.Pdf
 {
@@ -57,28 +56,33 @@ namespace OpenHtmlToPdf.Pdf
             {
                 lock (SyncRoot)
                 {
-                    using (var wkhtmlToPdfContext = WkHtmlToPdfContext.Create())
+                    var domain = AnotherDomain();
+
+                    try
                     {
-
-                        var domain = AppDomain.CreateDomain(
-                            Guid.NewGuid().ToString("N"),
-                            AppDomain.CurrentDomain.Evidence,
-                            AppDomain.CurrentDomain.SetupInformation);
-
-                        try
-                        {
-                            var renderOperation = (RenderOperation)domain.CreateInstanceAndUnwrap(
-                                Assembly.GetExecutingAssembly().FullName,
-                                typeof(RenderOperation).FullName
-                                );
-                            return renderOperation.Render(_html, _globalSettings, _objectSettings, wkhtmlToPdfContext);
-                        }
-                        finally
-                        {
-                            AppDomain.Unload(domain);
-                        }
+                        return RenderOperationIn(domain).Render(_html, _globalSettings, _objectSettings);
+                    }
+                    finally
+                    {
+                        AppDomain.Unload(domain);
                     }
                 }
+            }
+
+            private static AppDomain AnotherDomain()
+            {
+                return AppDomain.CreateDomain(
+                    Guid.NewGuid().ToString("N"),
+                    AppDomain.CurrentDomain.Evidence,
+                    AppDomain.CurrentDomain.SetupInformation);
+            }
+
+            private static RenderOperation RenderOperationIn(AppDomain domain)
+            {
+                return (RenderOperation)domain.CreateInstanceAndUnwrap(
+                    Assembly.GetExecutingAssembly().FullName,
+                    typeof(RenderOperation).FullName
+                    );
             }
         }
     }

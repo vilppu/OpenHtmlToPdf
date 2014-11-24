@@ -6,17 +6,25 @@ namespace OpenHtmlToPdf.Pdf
 {
     public sealed class RenderOperation : MarshalByRefObject
     {
-        public byte[] Render(string html, IDictionary<string, string> globalSettings, IDictionary<string, string> objectSettings, WkHtmlToPdfContext wkhtmlToPdfContext)
+        public byte[] Render(
+            string html,
+            IDictionary<string, string> globalSettings, 
+            IDictionary<string, string> objectSettings)
         {
-            foreach (var globalSetting in globalSettings)
-                WkHtmlToPdf.wkhtmltopdf_set_global_setting(wkhtmlToPdfContext.GlobalSettingsPointer, globalSetting.Key,
-                    globalSetting.Value);
+            using (var wkhtmlToPdfContext = WkHtmlToPdfContext.Create())
+            {
+                foreach (var globalSetting in globalSettings)
+                    WkHtmlToPdf.wkhtmltopdf_set_global_setting(wkhtmlToPdfContext.GlobalSettingsPointer,
+                        globalSetting.Key,
+                        globalSetting.Value);
 
-            foreach (var objectSetting in objectSettings)
-                WkHtmlToPdf.wkhtmltopdf_set_object_setting(wkhtmlToPdfContext.ObjectSettingsPointer, objectSetting.Key,
-                    objectSetting.Value);
+                foreach (var objectSetting in objectSettings)
+                    WkHtmlToPdf.wkhtmltopdf_set_object_setting(wkhtmlToPdfContext.ObjectSettingsPointer,
+                        objectSetting.Key,
+                        objectSetting.Value);
 
-            return wkhtmlToPdfContext.Render(html);
+                return wkhtmlToPdfContext.Render(html);
+            }
         }
     }
 }
