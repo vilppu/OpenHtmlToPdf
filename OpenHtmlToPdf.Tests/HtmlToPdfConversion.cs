@@ -18,7 +18,7 @@ namespace OpenHtmlToPdf.Tests
 
             var result = Pdf.From(html).Content();
 
-            TextAssert.Contains(PdfToTextConverter.ToText(result), expectedDocumentContent);
+            TextAssert.Contains(PdfDocument.ToText(result), expectedDocumentContent);
         }
 
         [TestMethod]
@@ -36,7 +36,53 @@ namespace OpenHtmlToPdf.Tests
             Task.WaitAll(results);
 
             foreach (var result in results)
-                TextAssert.Contains(PdfToTextConverter.ToText(result.Result), expectedDocumentContent);
+                TextAssert.Contains(PdfDocument.ToText(result.Result), expectedDocumentContent);
+        }
+
+        [TestMethod]
+        public void Document_title()
+        {
+            const string expectedTitle = "Expected title";
+            var html = string.Format(HtmlDocumentFormat, "");
+
+            var result = Pdf.From(html).WithTitle(expectedTitle).Content();
+
+            Assert.AreEqual(expectedTitle, PdfDocument.Title(result));
+        }
+
+        [TestMethod]
+        public void Page_size()
+        {
+            var html = string.Format(HtmlDocumentFormat, "");
+
+            var result = Pdf.From(html).WithPaperSize(PaperSize.A4).Content();
+
+            Assert.AreEqual(595, PdfDocument.WidthOfFirstPage(result)); // 210mm is 595 PostScript points where 1 pt = 25.4/72 mm
+            Assert.AreEqual(842, PdfDocument.HeightOfFirstPage(result)); // 297mm is 842 PostScript points where 1 pt = 25.4/72 mm
+        }
+
+        [TestMethod]
+        public void Margins()
+        {
+            var html = string.Format(HtmlDocumentFormat, "");
+
+            Pdf.From(html).WithMargins(new PaperMargins(5, "mm")).Content();
+        }
+
+        [TestMethod]
+        public void Outline()
+        {
+            var html = string.Format(HtmlDocumentFormat, "");
+
+            Pdf.From(html).WithOutline().Content();
+        }
+
+        [TestMethod]
+        public void Orientation()
+        {
+            var html = string.Format(HtmlDocumentFormat, "");
+
+            Pdf.From(html).WithPaperOrientation(PaperOrientation.Landscape).Content();
         }
     }
 }
