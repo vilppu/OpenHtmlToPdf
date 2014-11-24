@@ -3,6 +3,7 @@
     public static class Pdf
     {
         private static readonly object SyncRoot = new object();
+
         public static byte[] From(string html)
         {
             return ConvertToPdf(html);
