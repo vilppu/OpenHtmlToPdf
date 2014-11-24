@@ -1,5 +1,4 @@
-using OpenHtmlToPdf.Interop;
-using OpenHtmlToPdf.WkHtmlToX;
+using System.Globalization;
 
 namespace OpenHtmlToPdf.Pdf
 {
@@ -8,23 +7,29 @@ namespace OpenHtmlToPdf.Pdf
         public static IPdfDocument Oriented(this IPdfDocument pdfDocument, PaperOrientation paperOrientation)
         {
             return pdfDocument
-                .BeforeRender(c => WkHtmlToPdf.wkhtmltopdf_set_global_setting(c.GlobalSettingsPointer, "orientation", paperOrientation.Orientation));
+                .WithGlobalSetting("orientation", paperOrientation.Orientation);
         }
 
         public static IPdfDocument OfSize(this IPdfDocument pdfDocument, PaperSize paperSize)
         {
             return pdfDocument
-                .BeforeRender(c => WkHtmlToPdf.wkhtmltopdf_set_global_setting(c.GlobalSettingsPointer, "size.width", paperSize.Width))
-                .BeforeRender(c => WkHtmlToPdf.wkhtmltopdf_set_global_setting(c.GlobalSettingsPointer, "size.height", paperSize.Height));
+                .WithGlobalSetting("size.width", paperSize.Width)
+                .WithGlobalSetting("size.height", paperSize.Height);
         }
 
         public static IPdfDocument With(this IPdfDocument pdfDocument, PaperMargins paperMargins)
         {
             return pdfDocument
-                .BeforeRender(c => WkHtmlToPdf.wkhtmltopdf_set_global_setting(c.GlobalSettingsPointer, "margin.bottom", paperMargins.Bottom))
-                .BeforeRender(c => WkHtmlToPdf.wkhtmltopdf_set_global_setting(c.GlobalSettingsPointer, "margin.left", paperMargins.Left))
-                .BeforeRender(c => WkHtmlToPdf.wkhtmltopdf_set_global_setting(c.GlobalSettingsPointer, "margin.right", paperMargins.Right))
-                .BeforeRender(c => WkHtmlToPdf.wkhtmltopdf_set_global_setting(c.GlobalSettingsPointer, "margin.top", paperMargins.Top));
+                .WithGlobalSetting("margin.bottom", paperMargins.Bottom)
+                .WithGlobalSetting("margin.left", paperMargins.Left)
+                .WithGlobalSetting("margin.right", paperMargins.Right)
+                .WithGlobalSetting("margin.top", paperMargins.Top);
+        }
+        
+        public static IPdfDocument WithResolution(this IPdfDocument pdfDocument, int dpi)
+        {
+            return pdfDocument
+                .WithGlobalSetting("dpi", dpi.ToString(CultureInfo.InvariantCulture));
         }
     }
 }

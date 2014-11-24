@@ -4,8 +4,7 @@ using OpenHtmlToPdf.Interop;
 
 namespace OpenHtmlToPdf.WkHtmlToX
 {
-    [Serializable]
-    static class WkHtmlToPdf
+    public static class WkHtmlToPdf
     {
         [DllImport("wkhtmltox.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
         public static extern void wkhtmltopdf_add_object(

@@ -9,30 +9,34 @@ namespace OpenHtmlToPdf.WkHtmlToX
         private readonly IntPtr _globalSettingsPointer;
         private readonly IntPtr _converterPointer;
         private readonly NativeLibrary _wkHtmlToXLibrary;
-        private readonly IntPtr _objectSettings;
+        private readonly IntPtr _objectSettingsPointer;
 
-        private WkHtmlToPdfContext(IntPtr globalSettingsPointer, IntPtr converterPointer, NativeLibrary wkHtmlToXLibrary, IntPtr objectSettings)
+        private WkHtmlToPdfContext(IntPtr globalSettingsPointer, IntPtr converterPointer, NativeLibrary wkHtmlToXLibrary, IntPtr objectSettingsPointer)
         {
             _globalSettingsPointer = globalSettingsPointer;
             _converterPointer = converterPointer;
             _wkHtmlToXLibrary = wkHtmlToXLibrary;
-            _objectSettings = objectSettings;
+            _objectSettingsPointer = objectSettingsPointer;
         }
 
         public static WkHtmlToPdfContext Create()
         {
+            var wkHtmlToXLibrary = WkHtmlToPdfLibrary.Load();
+
             WkHtmlToPdf.wkhtmltopdf_init(UseX11Graphics);
 
-            var wkHtmlToXLibrary = WkHtmlToPdfLibrary.Load();
             var globalSettingsPointer = WkHtmlToPdf.wkhtmltopdf_create_global_settings();
             var converterPointer = WkHtmlToPdf.wkhtmltopdf_create_converter(globalSettingsPointer);
-            var objectSettings = WkHtmlToPdf.wkhtmltopdf_create_object_settings();
+            var objectSettingsPointer = WkHtmlToPdf.wkhtmltopdf_create_object_settings();
 
-            return new WkHtmlToPdfContext(globalSettingsPointer, converterPointer, wkHtmlToXLibrary, objectSettings);
+            return new WkHtmlToPdfContext(globalSettingsPointer, converterPointer, wkHtmlToXLibrary, objectSettingsPointer);
         }
 
         public void Dispose()
         {
+            if (_converterPointer != IntPtr.Zero)
+                WkHtmlToPdf.wkhtmltopdf_destroy_converter(_converterPointer);
+
             WkHtmlToPdf.wkhtmltopdf_deinit();
             _wkHtmlToXLibrary.Dispose();
         }
@@ -47,9 +51,9 @@ namespace OpenHtmlToPdf.WkHtmlToX
             get { return _converterPointer; }
         }
 
-        public IntPtr ObjectSettings
+        public IntPtr ObjectSettingsPointer
         {
-            get { return _objectSettings; }
+            get { return _objectSettingsPointer; }
         }
     }
 }

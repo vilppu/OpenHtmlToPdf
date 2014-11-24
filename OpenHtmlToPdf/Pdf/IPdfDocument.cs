@@ -1,12 +1,9 @@
-﻿using System;
-using OpenHtmlToPdf.WkHtmlToX;
-
-namespace OpenHtmlToPdf.Pdf
+﻿namespace OpenHtmlToPdf.Pdf
 {
     public interface IPdfDocument
     {
-        IPdfDocument BeforeRender(Action<WkHtmlToPdfContext> beforeRender);
-
+        IPdfDocument WithGlobalSetting(string key, string value);
+        IPdfDocument WithObjectSetting(string key, string value);
         byte[] Content();
     }
 }

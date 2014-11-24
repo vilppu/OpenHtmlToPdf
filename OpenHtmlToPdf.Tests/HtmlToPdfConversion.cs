@@ -1,16 +1,14 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenHtmlToPdf.Pdf;
 using OpenHtmlToPdf.Tests.Helpers;
-using PdfDocument = OpenHtmlToPdf.Tests.Helpers.PdfDocument;
 
 namespace OpenHtmlToPdf.Tests
 {
     [TestClass]
     public class HtmlToPdfConversion
     {
-        private const string HtmlDocumentFormat = "<!DOCTYPE html><html><head><meta charset='UTF-8'><title></title></head><body>{0}</body></html>";
+        private const string HtmlDocumentFormat = "<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Title</title></head><body>{0}</body></html>";
 
         [TestMethod]
         public void HTML_document_is_converted_to_PDF_document()
@@ -18,7 +16,7 @@ namespace OpenHtmlToPdf.Tests
             const string expectedDocumentContent = "Expected document content";
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
 
-            var result = Pdf.From(html).Content();
+            var result = Document.From(html).Content();
 
             TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(result));
         }
@@ -29,7 +27,7 @@ namespace OpenHtmlToPdf.Tests
             const string expectedDocumentContent = "Äöåõ";
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
 
-            var result = Pdf.From(html).Content();
+            var result = Document.From(html).EncodedWith("utf-8").Content();
 
             TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(result));
         }
@@ -40,9 +38,9 @@ namespace OpenHtmlToPdf.Tests
             const string expectedDocumentContent = "Expected document content";
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
 
-            var first = Pdf.From(html).Content();
-            var second = Pdf.From(html).Content();
-            var third = Pdf.From(html).Content();
+            var first = Document.From(html).Content();
+            var second = Document.From(html).Content();
+            var third = Document.From(html).Content();
 
             TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(first));
             TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(second));
@@ -55,9 +53,9 @@ namespace OpenHtmlToPdf.Tests
             const string expectedDocumentContent = "Expected document content";
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
 
-            var first = Task.Run(() =>  Pdf.From(html).Content());
-            var second = Task.Run(() => Pdf.From(html).Content());
-            var third = Task.Run(() => Pdf.From(html).Content());
+            var first = Task.Run(() => Document.From(html).Content());
+            var second = Task.Run(() => Document.From(html).Content());
+            var third = Task.Run(() => Document.From(html).Content());
 
             Task.WaitAll(first, second, third);
 
@@ -72,7 +70,7 @@ namespace OpenHtmlToPdf.Tests
             const string expectedTitle = "Expected title";
             var html = string.Format(HtmlDocumentFormat, "");
 
-            var result = Pdf.From(html).WithTitle(expectedTitle).Content();
+            var result = Document.From(html).WithTitle(expectedTitle).Content();
 
             Assert.AreEqual(expectedTitle, PdfDocument.Title(result));
         }
@@ -82,7 +80,7 @@ namespace OpenHtmlToPdf.Tests
         {
             var html = string.Format(HtmlDocumentFormat, "");
 
-            var result = Pdf.From(html).OfSize(PaperSize.A4).Content();
+            var result = Document.From(html).OfSize(PaperSize.A4).Content();
 
             Assert.AreEqual(595, PdfDocument.WidthOfFirstPage(result)); // 210mm is 595 PostScript points where 1 pt = 25.4/72 mm
             Assert.AreEqual(842, PdfDocument.HeightOfFirstPage(result)); // 297mm is 842 PostScript points where 1 pt = 25.4/72 mm
@@ -93,7 +91,7 @@ namespace OpenHtmlToPdf.Tests
         {
             var html = string.Format(HtmlDocumentFormat, "");
 
-            Pdf.From(html).With(new PaperMargins(5, "mm")).Content();
+            Document.From(html).With(new PaperMargins(5, "mm")).Content();
         }
 
         [TestMethod]
@@ -101,7 +99,7 @@ namespace OpenHtmlToPdf.Tests
         {
             var html = string.Format(HtmlDocumentFormat, "");
 
-            Pdf.From(html).WithOutline().Content();
+            Document.From(html).WithOutline().Content();
         }
 
         [TestMethod]
@@ -109,7 +107,7 @@ namespace OpenHtmlToPdf.Tests
         {
             var html = string.Format(HtmlDocumentFormat, "");
 
-            Pdf.From(html).Oriented(PaperOrientation.Landscape).Content();
+            Document.From(html).Oriented(PaperOrientation.Landscape).Content();
         }
     }
 }
