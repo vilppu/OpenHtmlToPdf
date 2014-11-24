@@ -3,7 +3,7 @@ using OpenHtmlToPdf.Interop;
 
 namespace OpenHtmlToPdf.WkHtmlToX
 {
-    public sealed class WkHtmlToPdfContext : IDisposable
+    public sealed class WkHtmlToPdfContext : MarshalByRefObject, IDisposable
     {
         private const int UseX11Graphics = 0;
         private readonly IntPtr _globalSettingsPointer;

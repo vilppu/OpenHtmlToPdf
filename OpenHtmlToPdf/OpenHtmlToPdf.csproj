@@ -106,7 +106,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BundledFiles.resx</DependentUpon>
     </Compile>
-    <Compile Include="Pdf\Compression.cs" />
     <Compile Include="Pdf\DocumentCreationFailedException.cs" />
     <Compile Include="Pdf\IPdfDocument.cs" />
     <Compile Include="Pdf\PaperOrientation.cs" />
@@ -116,6 +115,7 @@
     <Compile Include="Pdf\PaperSettings.cs" />
     <Compile Include="Pdf\PaperMargins.cs" />
     <Compile Include="Pdf\PaperSize.cs" />
+    <Compile Include="Pdf\RenderOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interop\NativeLibrary.cs" />
     <Compile Include="WkHtmlToX\WkHtmlToPdf.cs" />

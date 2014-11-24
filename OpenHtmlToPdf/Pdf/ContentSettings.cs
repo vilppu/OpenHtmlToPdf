@@ -2,6 +2,11 @@ namespace OpenHtmlToPdf.Pdf
 {
     public static class ContentSettings
     {
+        public static IPdfDocument Comressed(this IPdfDocument pdfDocument)
+        {
+            return pdfDocument.WithGlobalSetting("useCompression", "true");
+        }
+
         public static IPdfDocument WithTitle(this IPdfDocument pdfDocument, string title)
         {
             return pdfDocument.WithGlobalSetting("documentTitle", title);

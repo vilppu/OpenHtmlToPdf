@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using OpenHtmlToPdf.WkHtmlToX;
 
 namespace OpenHtmlToPdf.Pdf
@@ -27,7 +29,10 @@ namespace OpenHtmlToPdf.Pdf
 
             public static DocumentBuilder Containing(string html)
             {
-                return new DocumentBuilder(html, new Dictionary<string, string>(), new Dictionary<string, string>());
+                return new DocumentBuilder(
+                    html,
+                    new Dictionary<string, string>(),
+                    new Dictionary<string, string>());
             }
 
             public IPdfDocument WithGlobalSetting(string key, string value)
@@ -54,13 +59,24 @@ namespace OpenHtmlToPdf.Pdf
                 {
                     using (var wkhtmlToPdfContext = WkHtmlToPdfContext.Create())
                     {
-                        foreach (var globalSetting in _globalSettings)
-                            WkHtmlToPdf.wkhtmltopdf_set_global_setting(wkhtmlToPdfContext.GlobalSettingsPointer, globalSetting.Key, globalSetting.Value);
 
-                        foreach (var objectSetting in _objectSettings)
-                            WkHtmlToPdf.wkhtmltopdf_set_object_setting(wkhtmlToPdfContext.ObjectSettingsPointer, objectSetting.Key, objectSetting.Value);
+                        var domain = AppDomain.CreateDomain(
+                            Guid.NewGuid().ToString("N"),
+                            AppDomain.CurrentDomain.Evidence,
+                            AppDomain.CurrentDomain.SetupInformation);
 
-                        return wkhtmlToPdfContext.Render(_html);
+                        try
+                        {
+                            var renderOperation = (RenderOperation)domain.CreateInstanceAndUnwrap(
+                                Assembly.GetExecutingAssembly().FullName,
+                                typeof(RenderOperation).FullName
+                                );
+                            return renderOperation.Render(_html, _globalSettings, _objectSettings, wkhtmlToPdfContext);
+                        }
+                        finally
+                        {
+                            AppDomain.Unload(domain);
+                        }
                     }
                 }
             }

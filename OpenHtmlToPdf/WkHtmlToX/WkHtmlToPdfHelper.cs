@@ -9,12 +9,12 @@ namespace OpenHtmlToPdf.WkHtmlToX
     {
         public static byte[] Render(this WkHtmlToPdfContext wkHtmlToPdfContext, string html)
         {
-            StringCallback onErrorDelegate = (converter, errorText) =>
+            StringCallback errorCallback = (converter, errorText) =>
             {
                 throw new DocumentCreationFailedException(errorText);
             };
 
-            WkHtmlToPdf.wkhtmltopdf_set_error_callback(wkHtmlToPdfContext.ConverterPointer, onErrorDelegate);
+            WkHtmlToPdf.wkhtmltopdf_set_error_callback(wkHtmlToPdfContext.ConverterPointer, errorCallback);
             WkHtmlToPdf.wkhtmltopdf_add_object(wkHtmlToPdfContext.ConverterPointer, wkHtmlToPdfContext.ObjectSettingsPointer, html);
             WkHtmlToPdf.wkhtmltopdf_convert(wkHtmlToPdfContext.ConverterPointer);
 
