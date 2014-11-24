@@ -5,12 +5,13 @@
 OpenHtmlToPdf uses [WkHtmlToPdf](http://github.com/antialize/wkhtmltopdf) native Windows library for HTML to PDF rendering.
 
 ##Download
-	OpenHtmlToPdf can be download as a [NuGet package] (https://www.nuget.org/packages/OpenHtmlToPdf/)
+
+OpenHtmlToPdf can be download as a [NuGet package] (https://www.nuget.org/packages/OpenHtmlToPdf/)
 
 ##Usage
 	const string htmlDocument = "<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Title</title></head><body>Body text...</body></html>";
 
-	 var pdf = Pdf.From(html).WithTitle("Title").Content();
+	var pdf = Pdf.From(html).WithTitle("Title").Content();
 
 License
 -------
