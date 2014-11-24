@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using OpenHtmlToPdf.WkHtmlToX;
+using OpenHtmlToPdf.Native;
 
 namespace OpenHtmlToPdf.Settings
 {
@@ -92,22 +92,22 @@ namespace OpenHtmlToPdf.Settings
             }
         }
 
-        public void ApplyToConverter(WkHtmlToPdf wkHtmlToPdf, IntPtr converter)
+        public void ApplyToConverter(IntPtr converter)
         {
-            var config = wkHtmlToPdf.CreateObjectSettings();
+            var config = Wkhtmltox.wkhtmltopdf_create_object_settings();;
 
-            ApplySettings(wkHtmlToPdf, config);
+            ApplySettings(config);
 
-            wkHtmlToPdf.AddObject(converter, config, _data);
+            Wkhtmltox.wkhtmltopdf_add_object(converter, config, _data);
         }
 
-        private void ApplySettings(WkHtmlToPdf wkHtmlToPdf, IntPtr config)
+        private void ApplySettings(IntPtr config)
         {
-            wkHtmlToPdf.ApplySettings(config, this);
-            wkHtmlToPdf.ApplySettings(config, HeaderSettings);
-            wkHtmlToPdf.ApplySettings(config, FooterSettings);
-            wkHtmlToPdf.ApplySettings(config, WebSettings);
-            wkHtmlToPdf.ApplySettings(config, LoadSettings);
+            WkHtmlToPdfSettings.ApplySettings(config, this);
+            WkHtmlToPdfSettings.ApplySettings(config, HeaderSettings);
+            WkHtmlToPdfSettings.ApplySettings(config, FooterSettings);
+            WkHtmlToPdfSettings.ApplySettings(config, WebSettings);
+            WkHtmlToPdfSettings.ApplySettings(config, LoadSettings);
         }
     }
 }

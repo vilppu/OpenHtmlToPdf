@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing.Printing;
+using OpenHtmlToPdf.Native;
 using OpenHtmlToPdf.Settings;
-using OpenHtmlToPdf.WkHtmlToX;
 
 namespace OpenHtmlToPdf
 {
-    class HtmlToPdfDocument
+    class PdfDocumentSettings
     {
         private readonly GlobalSettings _globalSettings = new GlobalSettings();
         private readonly List<ObjectSettings> _objectSettings = new List<ObjectSettings>();
 
-        public static HtmlToPdfDocument From(string html)
+        public static PdfDocumentSettings From(string html)
         {
-            return new HtmlToPdfDocument
+            return new PdfDocumentSettings
             {
                 _globalSettings =
                 {
@@ -34,16 +34,16 @@ namespace OpenHtmlToPdf
         }
 
 
-        internal IntPtr ApplyToConverter(WkHtmlToPdf wkHtmlToPdf)
+        public IntPtr ApplyToConverter()
         {
-            var config = wkHtmlToPdf.CreateGlobalSetting();
+            var config = Wkhtmltox.wkhtmltopdf_create_global_settings();
 
-            wkHtmlToPdf.ApplySettings(config, _globalSettings, true);
+            WkHtmlToPdfSettings.ApplySettings(config, _globalSettings, true);
 
-            var converter = wkHtmlToPdf.CreateConverter(config);
+            var converter =  Wkhtmltox.wkhtmltopdf_create_converter(config);
 
             foreach (var setting in _objectSettings)
-                setting.ApplyToConverter(wkHtmlToPdf, converter);
+                setting.ApplyToConverter(converter);
 
             return converter;
         }

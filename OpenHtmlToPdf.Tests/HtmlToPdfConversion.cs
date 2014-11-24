@@ -16,7 +16,7 @@ namespace OpenHtmlToPdf.Tests
             const string expectedDocumentContent = "Expected document content";
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
 
-            var result = Pdf.From(html);
+            var result = Pdf.From(html).Content();
 
             TextAssert.Contains(PdfToTextConverter.ToText(result), expectedDocumentContent);
         }
@@ -29,7 +29,7 @@ namespace OpenHtmlToPdf.Tests
             const int numbeOfDocuments = 2;
             var results = Enumerable
                 .Range(0, numbeOfDocuments)
-                .Select(i => Task.Factory.StartNew(() => Pdf.From(html)))
+                .Select(i => Task.Factory.StartNew(() => Pdf.From(html).Content()))
                 .ToArray();
 
             // ReSharper disable once CoVariantArrayConversion
