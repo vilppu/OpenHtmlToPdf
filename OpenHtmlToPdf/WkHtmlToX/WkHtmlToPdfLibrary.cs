@@ -2,7 +2,7 @@
 using System.IO;
 using System.IO.Compression;
 using OpenHtmlToPdf.Assets;
-using OpenHtmlToPdf.Native;
+using OpenHtmlToPdf.Interop;
 
 namespace OpenHtmlToPdf.WkHtmlToX
 {
@@ -22,13 +22,13 @@ namespace OpenHtmlToPdf.WkHtmlToX
             if (Environment.OSVersion.Platform != PlatformID.Win32NT)
                 throw new PlatformNotSupportedException(String.Format("Platform {0} is not supported", Platform()));
 
-            using (var wkhtmltoxZipArchive = WkhtmltoxZipArchive())
+            using (var wkhtmltoxZipArchive = WkHtmlToXZipArchive())
             {
                 return wkhtmltoxZipArchive.ReadFile(CompressedLibraryFilename());
             }
         }
 
-        private static ZipArchive WkhtmltoxZipArchive()
+        private static ZipArchive WkHtmlToXZipArchive()
         {
             return new ZipArchive(new MemoryStream(BundledFiles.wkhtmltox));
         }
