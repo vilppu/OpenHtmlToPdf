@@ -37,7 +37,7 @@ namespace OpenHtmlToPdf.WkHtmlToX
             if (_converterPointer != IntPtr.Zero)
                 WkHtmlToPdf.wkhtmltopdf_destroy_converter(_converterPointer);
 
-            WkHtmlToPdf.wkhtmltopdf_deinit();
+            //WkHtmlToPdf.wkhtmltopdf_deinit();
             _wkHtmlToXLibrary.Dispose();
         }
 

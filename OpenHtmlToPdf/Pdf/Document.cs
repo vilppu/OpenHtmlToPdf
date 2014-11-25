@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using System.Threading.Tasks;
+using OpenHtmlToPdf.WkHtmlToX;
 
 namespace OpenHtmlToPdf.Pdf
 {
@@ -56,33 +56,26 @@ namespace OpenHtmlToPdf.Pdf
             {
                 lock (SyncRoot)
                 {
-                    var domain = AnotherDomain();
-
-                    try
-                    {
-                        return RenderOperationIn(domain).Render(_html, _globalSettings, _objectSettings);
-                    }
-                    finally
-                    {
-                        AppDomain.Unload(domain);
-                    }
+                    return Task.Run(() => GetContent()).Result;
                 }
             }
 
-            private static AppDomain AnotherDomain()
+            private byte[] GetContent()
             {
-                return AppDomain.CreateDomain(
-                    Guid.NewGuid().ToString("N"),
-                    AppDomain.CurrentDomain.Evidence,
-                    AppDomain.CurrentDomain.SetupInformation);
-            }
+                using (var wkhtmlToPdfContext = WkHtmlToPdfContext.Create())
+                {
+                    foreach (var globalSetting in _globalSettings)
+                        WkHtmlToPdf.wkhtmltopdf_set_global_setting(wkhtmlToPdfContext.GlobalSettingsPointer,
+                            globalSetting.Key,
+                            globalSetting.Value);
 
-            private static RenderOperation RenderOperationIn(AppDomain domain)
-            {
-                return (RenderOperation)domain.CreateInstanceAndUnwrap(
-                    Assembly.GetExecutingAssembly().FullName,
-                    typeof(RenderOperation).FullName
-                    );
+                    foreach (var objectSetting in _objectSettings)
+                        WkHtmlToPdf.wkhtmltopdf_set_object_setting(wkhtmlToPdfContext.ObjectSettingsPointer,
+                            objectSetting.Key,
+                            objectSetting.Value);
+
+                    return wkhtmlToPdfContext.Render(_html);
+                }
             }
         }
     }
