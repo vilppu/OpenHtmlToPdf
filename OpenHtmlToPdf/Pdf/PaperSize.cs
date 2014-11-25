@@ -1,4 +1,4 @@
-﻿namespace OpenHtmlToPdf
+﻿namespace OpenHtmlToPdf.Pdf
 {
     public struct PaperSize
     {

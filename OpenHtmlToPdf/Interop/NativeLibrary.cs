@@ -1,7 +1,7 @@
 ﻿using System;
 using OpenHtmlToPdf.Assets;
 
-namespace OpenHtmlToPdf.Native
+namespace OpenHtmlToPdf.Interop
 {
     sealed class NativeLibrary
     {
