@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace OpenHtmlToPdf.Pdf
+namespace OpenHtmlToPdf
 {
     public struct PaperMargins
     {

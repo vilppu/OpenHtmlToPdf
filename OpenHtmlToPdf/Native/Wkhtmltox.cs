@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using OpenHtmlToPdf.Interop;
 
-namespace OpenHtmlToPdf.WkHtmlToX
+namespace OpenHtmlToPdf.Native
 {
     [Serializable]
-    static class WkHtmlToPdf
+    static class Wkhtmltox
     {
         [DllImport("wkhtmltox.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
         public static extern void wkhtmltopdf_add_object(

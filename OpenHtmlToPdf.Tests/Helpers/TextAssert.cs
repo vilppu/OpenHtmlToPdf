@@ -12,16 +12,6 @@ namespace OpenHtmlToPdf.Tests.Helpers
             ContainsExact(value.ToLowerCaseSingleLine(), substring.ToLowerCaseSingleLine());
         }
 
-        public static void AreEqual(string expected, string actual)
-        {
-            AreEqualExact(expected.ToLowerCaseSingleLine(), actual.ToLowerCaseSingleLine());
-        }
-
-        private static void AreEqualExact(string expected, string actual)
-        {
-            Assert.AreEqual(expected, actual);
-        }
-
         private static void ContainsExact(string value, string substring)
         {
             StringAssert.Contains(value, substring);

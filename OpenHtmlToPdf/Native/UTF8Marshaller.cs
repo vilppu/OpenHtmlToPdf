@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace OpenHtmlToPdf.Interop
+namespace OpenHtmlToPdf.Native
 {
     class Utf8Marshaler : ICustomMarshaler
     {

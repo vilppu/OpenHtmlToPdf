@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace OpenHtmlToPdf.Interop
+namespace OpenHtmlToPdf.Native
 {
     static class Kernel32
     {

@@ -1,9 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenHtmlToPdf.Pdf;
 using OpenHtmlToPdf.Tests.Helpers;
-using PdfDocument = OpenHtmlToPdf.Tests.Helpers.PdfDocument;
 
 namespace OpenHtmlToPdf.Tests
 {
@@ -20,50 +18,25 @@ namespace OpenHtmlToPdf.Tests
 
             var result = Pdf.From(html).Content();
 
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(result));
+            TextAssert.Contains(PdfDocument.ToText(result), expectedDocumentContent);
         }
 
         [TestMethod]
-        public void Text_encoding()
-        {
-            const string expectedDocumentContent = "Äöåõ";
-            var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
-
-            var result = Pdf.From(html).Content();
-
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(result));
-        }
-
-        [TestMethod]
-        public void Convert_multiple_documents_sequently()
+        public void Convert_multiple_documents_simultaneously()
         {
             const string expectedDocumentContent = "Expected document content";
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
+            const int numbeOfDocuments = 2;
+            var results = Enumerable
+                .Range(0, numbeOfDocuments)
+                .Select(i => Task.Factory.StartNew(() => Pdf.From(html).Content()))
+                .ToArray();
 
-            var first = Pdf.From(html).Content();
-            var second = Pdf.From(html).Content();
-            var third = Pdf.From(html).Content();
+            // ReSharper disable once CoVariantArrayConversion
+            Task.WaitAll(results);
 
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(first));
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(second));
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(third));
-        }
-
-        [TestMethod]
-        public void Convert_multiple_documents_concurrently()
-        {
-            const string expectedDocumentContent = "Expected document content";
-            var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
-
-            var first = Task.Run(() =>  Pdf.From(html).Content());
-            var second = Task.Run(() => Pdf.From(html).Content());
-            var third = Task.Run(() => Pdf.From(html).Content());
-
-            Task.WaitAll(first, second, third);
-
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(first.Result));
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(second.Result));
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(third.Result));
+            foreach (var result in results)
+                TextAssert.Contains(PdfDocument.ToText(result.Result), expectedDocumentContent);
         }
 
         [TestMethod]
@@ -82,7 +55,7 @@ namespace OpenHtmlToPdf.Tests
         {
             var html = string.Format(HtmlDocumentFormat, "");
 
-            var result = Pdf.From(html).OfSize(PaperSize.A4).Content();
+            var result = Pdf.From(html).WithPaperSize(PaperSize.A4).Content();
 
             Assert.AreEqual(595, PdfDocument.WidthOfFirstPage(result)); // 210mm is 595 PostScript points where 1 pt = 25.4/72 mm
             Assert.AreEqual(842, PdfDocument.HeightOfFirstPage(result)); // 297mm is 842 PostScript points where 1 pt = 25.4/72 mm
@@ -93,7 +66,7 @@ namespace OpenHtmlToPdf.Tests
         {
             var html = string.Format(HtmlDocumentFormat, "");
 
-            Pdf.From(html).With(new PaperMargins(5, "mm")).Content();
+            Pdf.From(html).WithMargins(new PaperMargins(5, "mm")).Content();
         }
 
         [TestMethod]
@@ -109,7 +82,7 @@ namespace OpenHtmlToPdf.Tests
         {
             var html = string.Format(HtmlDocumentFormat, "");
 
-            Pdf.From(html).Oriented(PaperOrientation.Landscape).Content();
+            Pdf.From(html).WithPaperOrientation(PaperOrientation.Landscape).Content();
         }
     }
 }

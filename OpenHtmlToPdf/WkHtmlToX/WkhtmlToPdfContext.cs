@@ -1,39 +1,57 @@
 ﻿using System;
-using OpenHtmlToPdf.Interop;
+using System.Runtime.InteropServices;
+using OpenHtmlToPdf.Exceptions;
+using OpenHtmlToPdf.Native;
 
 namespace OpenHtmlToPdf.WkHtmlToX
 {
-    public sealed class WkHtmlToPdfContext : IDisposable
+    public sealed class WkhtmlToPdfContext : IDisposable
     {
         private const int UseX11Graphics = 0;
         private readonly IntPtr _globalSettingsPointer;
         private readonly IntPtr _converterPointer;
-        private readonly NativeLibrary _wkHtmlToXLibrary;
-        private readonly IntPtr _objectSettings;
+        private static NativeLibrary _wkHtmlToXLibrary;
+        private readonly StringCallback _onErrorDelegate = OnError;
 
-        private WkHtmlToPdfContext(IntPtr globalSettingsPointer, IntPtr converterPointer, NativeLibrary wkHtmlToXLibrary, IntPtr objectSettings)
+        private WkhtmlToPdfContext(IntPtr globalSettingsPointer, IntPtr converterPointer)
         {
             _globalSettingsPointer = globalSettingsPointer;
             _converterPointer = converterPointer;
-            _wkHtmlToXLibrary = wkHtmlToXLibrary;
-            _objectSettings = objectSettings;
         }
 
-        public static WkHtmlToPdfContext Create()
+        public static WkhtmlToPdfContext CreateWith(string html)
         {
-            WkHtmlToPdf.wkhtmltopdf_init(UseX11Graphics);
+            _wkHtmlToXLibrary = WkHtmlToPdfLibrary.Load();
 
-            var wkHtmlToXLibrary = WkHtmlToPdfLibrary.Load();
-            var globalSettingsPointer = WkHtmlToPdf.wkhtmltopdf_create_global_settings();
-            var converterPointer = WkHtmlToPdf.wkhtmltopdf_create_converter(globalSettingsPointer);
-            var objectSettings = WkHtmlToPdf.wkhtmltopdf_create_object_settings();
+            if (Wkhtmltox.wkhtmltopdf_init(UseX11Graphics) == 0)
+                throw new HtmlToPdfConversionFailedException("wkhtmltopdf_init failed");
 
-            return new WkHtmlToPdfContext(globalSettingsPointer, converterPointer, wkHtmlToXLibrary, objectSettings);
+            var globalSettingsPointer = Wkhtmltox.wkhtmltopdf_create_global_settings();
+            var converterPointer = Wkhtmltox.wkhtmltopdf_create_converter(globalSettingsPointer);
+            var objectSettings = Wkhtmltox.wkhtmltopdf_create_object_settings();
+
+            Wkhtmltox.wkhtmltopdf_add_object(converterPointer, objectSettings, html);
+
+            return new WkhtmlToPdfContext(globalSettingsPointer, converterPointer);
+        }
+
+        public byte[] RenderPdf()
+        {
+            Wkhtmltox.wkhtmltopdf_set_error_callback(_converterPointer, _onErrorDelegate);
+
+            if (Wkhtmltox.wkhtmltopdf_convert(_converterPointer) == 0)
+                throw new HtmlToPdfConversionFailedException("wkhtmltopdf_convert failed");
+
+            IntPtr outputPointer;
+
+            var outputLength = Wkhtmltox.wkhtmltopdf_get_output(_converterPointer, out outputPointer);
+            
+            return GetBytesFromUnmanagedArray(outputPointer, outputLength);
         }
 
         public void Dispose()
         {
-            WkHtmlToPdf.wkhtmltopdf_deinit();
+            Wkhtmltox.wkhtmltopdf_deinit();
             _wkHtmlToXLibrary.Dispose();
         }
 
@@ -47,9 +65,18 @@ namespace OpenHtmlToPdf.WkHtmlToX
             get { return _converterPointer; }
         }
 
-        public IntPtr ObjectSettings
+        private static byte[] GetBytesFromUnmanagedArray(IntPtr pointerToArray, int arrayLength)
         {
-            get { return _objectSettings; }
+            var bytes = new byte[arrayLength];
+
+            Marshal.Copy(pointerToArray, bytes, 0, bytes.Length);
+
+            return bytes;
+        }
+
+        private static void OnError(IntPtr converter, string errorText)
+        {
+            throw new HtmlToPdfConversionFailedException(errorText);
         }
     }
 }

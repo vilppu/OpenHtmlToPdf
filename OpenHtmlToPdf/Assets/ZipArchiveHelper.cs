@@ -6,10 +6,10 @@ namespace OpenHtmlToPdf.Assets
 {
     static class ZipArchiveHelper
     {
-        public static byte[] ReadFile(this ZipArchive zipArchive, string filename)
+        public static byte[] ReadFile(this ZipArchive wkhtmltoxZipArchive, string libraryFilename)
         {
-            return zipArchive.Entries
-                .Where(e => e.FullName == filename)
+            return wkhtmltoxZipArchive.Entries
+                .Where(e => e.FullName == libraryFilename)
                 .Select(Read).Single();
         }
 

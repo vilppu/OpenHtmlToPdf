@@ -1,8 +1,8 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace OpenHtmlToPdf.Interop
+namespace OpenHtmlToPdf.Native
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void VoidCallback(IntPtr converter);
+    public delegate void IntCallback(IntPtr converter, int str);
 }

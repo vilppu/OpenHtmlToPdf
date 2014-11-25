@@ -106,30 +106,27 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BundledFiles.resx</DependentUpon>
     </Compile>
-    <Compile Include="Pdf\Compression.cs" />
-    <Compile Include="Pdf\DocumentCreationFailedException.cs" />
-    <Compile Include="Pdf\IPdfDocument.cs" />
-    <Compile Include="Pdf\PaperOrientation.cs" />
-    <Compile Include="Pdf\Document.cs" />
+    <Compile Include="Exceptions\HtmlToPdfConversionFailedException.cs" />
+    <Compile Include="IPdf.cs" />
+    <Compile Include="PaperOrientation.cs" />
+    <Compile Include="Pdf.cs" />
     <Compile Include="Assets\BundledFile.cs" />
-    <Compile Include="Pdf\ContentSettings.cs" />
-    <Compile Include="Pdf\PaperSettings.cs" />
-    <Compile Include="Pdf\PaperMargins.cs" />
-    <Compile Include="Pdf\PaperSize.cs" />
-    <Compile Include="Pdf\Resolution.cs" />
+    <Compile Include="PdfContentSettings.cs" />
+    <Compile Include="PdfPaperSettings.cs" />
+    <Compile Include="PaperMargins.cs" />
+    <Compile Include="PaperSize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Interop\NativeLibrary.cs" />
-    <Compile Include="WkHtmlToX\WkHtmlToPdf.cs" />
-    <Compile Include="WkHtmlToX\WkHtmlToPdfContext.cs" />
-    <Compile Include="WkHtmlToX\WkHtmlToPdfHelper.cs" />
+    <Compile Include="Native\NativeLibrary.cs" />
+    <Compile Include="Native\Wkhtmltox.cs" />
+    <Compile Include="WkHtmlToX\WkhtmlToPdfContext.cs" />
     <Compile Include="WkHtmlToX\WkHtmlToPdfLibrary.cs" />
     <Compile Include="Assets\ZipArchiveHelper.cs" />
     <None Include="Assets\wkhtmltox.zip" />
-    <Compile Include="Interop\IntCallback.cs" />
-    <Compile Include="Interop\StringCallback.cs" />
-    <Compile Include="Interop\UTF8Marshaller.cs" />
-    <Compile Include="Interop\VoidCallback.cs" />
-    <Compile Include="Interop\Kernel32.cs" />
+    <Compile Include="Native\IntCallback.cs" />
+    <Compile Include="Native\StringCallback.cs" />
+    <Compile Include="Native\UTF8Marshaller.cs" />
+    <Compile Include="Native\VoidCallback.cs" />
+    <Compile Include="Native\Kernel32.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\BundledFiles.resx">

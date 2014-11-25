@@ -1,4 +1,4 @@
-﻿namespace OpenHtmlToPdf.Pdf
+﻿namespace OpenHtmlToPdf
 {
     public sealed class PaperOrientation
     {
