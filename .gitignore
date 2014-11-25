@@ -10,5 +10,4 @@ packages
 # mstest test results
 TestResults
 *.nupkg
-*.nuspec
 OpenHtmlToPdf.sln.DotSettings
