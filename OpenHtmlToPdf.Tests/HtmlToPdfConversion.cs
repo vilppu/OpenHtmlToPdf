@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenHtmlToPdf.Pdf;
+using OpenHtmlToPdf;
 using OpenHtmlToPdf.Tests.Helpers;
-using Document = OpenHtmlToPdf.Pdf.Document;
+using Document = OpenHtmlToPdf.Document;
 
 namespace OpenHtmlToPdf.Tests
 {
@@ -53,16 +54,14 @@ namespace OpenHtmlToPdf.Tests
         public void Convert_multiple_documents_concurrently()
         {
             const string expectedDocumentContent = "Expected document content";
+            const int documentCount = 10;
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
             var tasks = new List<Task<byte[]>>();
 
-            for (int i = 0; i < 100; i++)
-            {
-                tasks.Add(Task.Run(() => Document.From(html).Content()));
-            }
-
-
-            Task.WaitAll(tasks.ToArray());
+            for (var i = 0; i < documentCount; i++)
+            tasks.Add(Task.Run(() => Document.From(html).Content()));
+            
+            Task.WaitAll(tasks.OfType<Task>().ToArray());
 
             foreach (var task in tasks)
                 TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(task.Result));

@@ -11,7 +11,14 @@ OpenHtmlToPdf can be download as a [NuGet package] (https://www.nuget.org/packag
 ##Usage
 	const string html = "<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Title</title></head><body>Body text...</body></html>";
 
-	var pdf = Pdf.From(html).WithTitle("Title").Content();
+	var pdf = Document
+		.From(html)
+		.WithTitle("Title")
+		.OfSize(PaperSize.A4)
+		.Comressed()
+		.Oriented(PaperOrientation.Landscape)
+		.WithOutline()
+		.Content();
 
 License
 -------

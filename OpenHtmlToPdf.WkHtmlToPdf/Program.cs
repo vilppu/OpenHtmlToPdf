@@ -1,32 +1,47 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using Newtonsoft.Json;
 using OpenHtmlToPdf.WkHtmlToPdf.WkHtmlToX;
 
 namespace OpenHtmlToPdf.WkHtmlToPdf
 {
-    class Program
+    static class Program
     {
-        static void Main()
+        static int Main()
         {
             try
             {
-                using (var standardOutput = Console.OpenStandardOutput())
-                {
-                    using (var writer = new StreamWriter(standardOutput))
-                    {
-                        writer.Write(ConvertStandardInputToBase64EncodedPdf());
-                    }
-                }
+                WritePdfToStandardOutput(ConvertStandardInputToBase64EncodedPdf());
+
+                return 0;
             }
             catch (Exception ex)
             {
-                using (var standardErrort = Console.OpenStandardError())
+                WriteExceptionMessageToStandardError(ex);
+
+                return -1;
+            }
+        }
+
+        private static void WriteExceptionMessageToStandardError(Exception ex)
+        {
+            using (var standardErrort = Console.OpenStandardError())
+            {
+                using (var writer = new StreamWriter(standardErrort))
                 {
-                    using (var writer = new StreamWriter(standardErrort))
-                    {
-                        writer.Write(JsonConvert.SerializeObject(ex));
-                    }
+                    writer.WriteAsBase64EncodedString(ex.Message);
+                }
+            }
+        }
+
+        private static void WritePdfToStandardOutput(string convertStandardInputToBase64EncodedPdf)
+        {
+            using (var standardOutput = Console.OpenStandardOutput())
+            {
+                using (var writer = new StreamWriter(standardOutput))
+                {
+                    writer.Write(convertStandardInputToBase64EncodedPdf);
                 }
             }
         }
@@ -47,9 +62,14 @@ namespace OpenHtmlToPdf.WkHtmlToPdf
             {
                 using (var streamReader = new StreamReader(standardInput))
                 {
-                    return JsonConvert.DeserializeObject<ConversionSource>(streamReader.ReadToEnd());
+                    return DeserializeBase64EncodedSource<ConversionSource>(streamReader.ReadToEnd());
                 }
             }
+        }
+
+        private static T DeserializeBase64EncodedSource<T>(string base64EncodedObject)
+        {
+            return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(Convert.FromBase64String(base64EncodedObject)));
         }
 
         private static byte[] ConvertToPdf(ConversionSource conversionSource)
@@ -68,6 +88,11 @@ namespace OpenHtmlToPdf.WkHtmlToPdf
 
                 return wkhtmlToPdfContext.Render(conversionSource.Html);
             }
+        }
+
+        private static void WriteAsBase64EncodedString(this TextWriter writer, string str)
+        {
+            writer.Write(Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(str))));
         }
     }
 }

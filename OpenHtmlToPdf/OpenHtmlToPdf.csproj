@@ -105,37 +105,19 @@
     <Reference Include="System.IO.Compression" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\BundledFiles.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BundledFiles.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Pdf\DocumentCreationFailedException.cs" />
-    <Compile Include="Pdf\IPdfDocument.cs" />
-    <Compile Include="Pdf\PaperOrientation.cs" />
-    <Compile Include="Pdf\Document.cs" />
-    <Compile Include="Assets\BundledFile.cs" />
-    <Compile Include="Pdf\ContentSettings.cs" />
-    <Compile Include="Pdf\PaperSettings.cs" />
-    <Compile Include="Pdf\PaperMargins.cs" />
-    <Compile Include="Pdf\PaperSize.cs" />
+    <Compile Include="DocumentCreationFailedException.cs" />
+    <Compile Include="IPdfDocument.cs" />
+    <Compile Include="PaperOrientation.cs" />
+    <Compile Include="Document.cs" />
+    <Compile Include="ContentSettings.cs" />
+    <Compile Include="PaperSettings.cs" />
+    <Compile Include="PaperMargins.cs" />
+    <Compile Include="PaperSize.cs" />
+    <Compile Include="PdfDocumentCreationFailedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Interop\NativeLibrary.cs" />
-    <Compile Include="Pdf\HtmlToPdfConverterProcess.cs" />
-    <Compile Include="Assets\ZipArchiveHelper.cs" />
-    <None Include="Assets\wkhtmltox.zip" />
-    <Compile Include="Interop\IntCallback.cs" />
-    <Compile Include="Interop\StringCallback.cs" />
-    <Compile Include="Interop\UTF8Marshaller.cs" />
-    <Compile Include="Interop\VoidCallback.cs" />
-    <Compile Include="Interop\Kernel32.cs" />
+    <Compile Include="HtmlToPdfConverterProcess.cs" />
+    <None Include="Properties\OpenHtmlToPdf.nuspec" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Assets\BundledFiles.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>BundledFiles.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenHtmlToPdf.WkHtmlToPdf\OpenHtmlToPdf.WkHtmlToPdf.csproj">
