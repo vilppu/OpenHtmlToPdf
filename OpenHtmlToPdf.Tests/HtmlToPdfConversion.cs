@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenHtmlToPdf.Pdf;
 using OpenHtmlToPdf.Tests.Helpers;
+using Document = OpenHtmlToPdf.Pdf.Document;
 
 namespace OpenHtmlToPdf.Tests
 {
@@ -52,16 +54,18 @@ namespace OpenHtmlToPdf.Tests
         {
             const string expectedDocumentContent = "Expected document content";
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
+            var tasks = new List<Task<byte[]>>();
 
-            var first = Task.Run(() => Document.From(html).Content());
-            var second = Task.Run(() => Document.From(html).Content());
-            var third = Task.Run(() => Document.From(html).Content());
+            for (int i = 0; i < 100; i++)
+            {
+                tasks.Add(Task.Run(() => Document.From(html).Content()));
+            }
 
-            Task.WaitAll(first, second, third);
 
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(first.Result));
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(second.Result));
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(third.Result));
+            Task.WaitAll(tasks.ToArray());
+
+            foreach (var task in tasks)
+                TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(task.Result));
         }
 
         [TestMethod]

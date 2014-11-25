@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenHtmlToPdf", "OpenHtmlTo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenHtmlToPdf.Tests", "OpenHtmlToPdf.Tests\OpenHtmlToPdf.Tests.csproj", "{F392B363-55E0-409F-8376-C0DA47AF4A64}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenHtmlToPdf.WkHtmlToPdf", "OpenHtmlToPdf.WkHtmlToPdf\OpenHtmlToPdf.WkHtmlToPdf.csproj", "{0E796401-7020-4261-8D61-F18201B2706B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,14 @@ Global
 		{F392B363-55E0-409F-8376-C0DA47AF4A64}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F392B363-55E0-409F-8376-C0DA47AF4A64}.Release|x64.ActiveCfg = Release|Any CPU
 		{F392B363-55E0-409F-8376-C0DA47AF4A64}.Release|x86.ActiveCfg = Release|Any CPU
+		{0E796401-7020-4261-8D61-F18201B2706B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E796401-7020-4261-8D61-F18201B2706B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E796401-7020-4261-8D61-F18201B2706B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0E796401-7020-4261-8D61-F18201B2706B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0E796401-7020-4261-8D61-F18201B2706B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E796401-7020-4261-8D61-F18201B2706B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E796401-7020-4261-8D61-F18201B2706B}.Release|x64.ActiveCfg = Release|Any CPU
+		{0E796401-7020-4261-8D61-F18201B2706B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

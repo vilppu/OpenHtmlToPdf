@@ -96,6 +96,10 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
@@ -117,10 +121,7 @@
     <Compile Include="Pdf\PaperSize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interop\NativeLibrary.cs" />
-    <Compile Include="WkHtmlToX\WkHtmlToPdf.cs" />
-    <Compile Include="WkHtmlToX\WkHtmlToPdfContext.cs" />
-    <Compile Include="WkHtmlToX\WkHtmlToPdfHelper.cs" />
-    <Compile Include="WkHtmlToX\WkHtmlToPdfLibrary.cs" />
+    <Compile Include="Pdf\HtmlToPdfConverterProcess.cs" />
     <Compile Include="Assets\ZipArchiveHelper.cs" />
     <None Include="Assets\wkhtmltox.zip" />
     <Compile Include="Interop\IntCallback.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Interop\UTF8Marshaller.cs" />
     <Compile Include="Interop\VoidCallback.cs" />
     <Compile Include="Interop\Kernel32.cs" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\BundledFiles.resx">
@@ -135,7 +137,12 @@
       <LastGenOutput>BundledFiles.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\OpenHtmlToPdf.WkHtmlToPdf\OpenHtmlToPdf.WkHtmlToPdf.csproj">
+      <Project>{0e796401-7020-4261-8d61-f18201b2706b}</Project>
+      <Name>OpenHtmlToPdf.WkHtmlToPdf</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

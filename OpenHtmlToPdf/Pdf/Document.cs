@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using OpenHtmlToPdf.WkHtmlToX;
 
 namespace OpenHtmlToPdf.Pdf
 {
@@ -54,28 +53,12 @@ namespace OpenHtmlToPdf.Pdf
 
             public byte[] Content()
             {
-                lock (SyncRoot)
-                {
-                    return Task.Run(() => GetContent()).Result;
-                }
+                return Task.Run(() => GetContent()).Result;
             }
 
             private byte[] GetContent()
             {
-                using (var wkhtmlToPdfContext = WkHtmlToPdfContext.Create())
-                {
-                    foreach (var globalSetting in _globalSettings)
-                        WkHtmlToPdf.wkhtmltopdf_set_global_setting(wkhtmlToPdfContext.GlobalSettingsPointer,
-                            globalSetting.Key,
-                            globalSetting.Value);
-
-                    foreach (var objectSetting in _objectSettings)
-                        WkHtmlToPdf.wkhtmltopdf_set_object_setting(wkhtmlToPdfContext.ObjectSettingsPointer,
-                            objectSetting.Key,
-                            objectSetting.Value);
-
-                    return wkhtmlToPdfContext.Render(_html);
-                }
+                return HtmlToPdfConverterProcess.ConvertToPdf(_html, _globalSettings, _objectSettings);
             }
         }
     }
