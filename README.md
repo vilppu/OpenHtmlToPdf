@@ -9,17 +9,35 @@ OpenHtmlToPdf uses [WkHtmlToPdf](http://github.com/antialize/wkhtmltopdf) native
 OpenHtmlToPdf can be download as a [NuGet package] (https://www.nuget.org/packages/OpenHtmlToPdf/)
 
 ##Usage
-	const string html = "<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Title</title></head><body>Body text...</body></html>";
 
-	var pdf = Document
-		.From(html)
-		.WithTitle("Title")
-		.OfSize(PaperSize.A4)
-		.Comressed()
-		.Oriented(PaperOrientation.Landscape)
-		.WithOutline()
-		.Content();
+###Generate PDF with default settings
+            const string html =
+                "<!DOCTYPE html>" +
+                "<html>" +
+                "<head><meta charset='UTF-8'><title>Title</title></head>" +
+                "<body>Body text...</body>" +
+                "</html>";
 
+            var pdf = Document
+                .Content();
+
+###Generate PDF with with specific settings
+            const string html =
+                "<!DOCTYPE html>" +
+                "<html>" +
+                "<head><meta charset='UTF-8'><title>Title</title></head>" +
+                "<body>Body text...</body>" +
+                "</html>";
+
+            var pdf = Document
+                .From(html)
+                .WithTitle("Title")
+                .OfSize(PaperSize.A4)
+                .WithMargins(PaperMargins.All(Length.Millimeters(1.5)))
+                .Comressed()
+                .Portrait()
+                .WithOutline()
+                .Content();
 License
 -------
 
