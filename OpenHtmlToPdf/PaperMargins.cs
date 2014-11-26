@@ -1,47 +1,78 @@
-﻿using System.Globalization;
-
-namespace OpenHtmlToPdf
+﻿namespace OpenHtmlToPdf
 {
-    public struct PaperMargins
+    public sealed class PaperMargins
     {
-        private readonly double _top;
-        private readonly double _right;
-        private readonly double _bottom;
-        private readonly double _left;
-        private readonly string _unitOfLength;
+        private readonly Length _top;
+        private readonly Length _right;
+        private readonly Length _bottom;
+        private readonly Length _left;
 
-        public PaperMargins(double top, double right, double bottom, double left, string unitOfLength)
+        private PaperMargins(Length all)
+            : this(all, all, all, all)
+        {
+        }
+
+        private PaperMargins(Length top, Length right, Length bottom, Length left)
         {
             _top = top;
             _right = right;
             _bottom = bottom;
             _left = left;
-            _unitOfLength = unitOfLength;
         }
 
-        public PaperMargins(double all, string unitOfLength)
-            : this(all, all, all, all, unitOfLength)
+        public static PaperMargins All(Length length)
         {
+            return new PaperMargins(length);
         }
 
-        public string Top
+        public static PaperMargins None()
         {
-            get { return string.Format("{0}{1}", _top.ToString("0.##", CultureInfo.InvariantCulture), _unitOfLength); }
+            return new PaperMargins(Length.Zero());
         }
 
-        public string Right
+        public static PaperMargins Build()
         {
-            get { return string.Format("{0}{1}", _right.ToString("0.##", CultureInfo.InvariantCulture), _unitOfLength); }
+            return new PaperMargins(Length.Zero());
         }
 
-        public string Bottom
+        public PaperMargins Top(Length top)
         {
-            get { return string.Format("{0}{1}", _bottom.ToString("0.##", CultureInfo.InvariantCulture), _unitOfLength); }
+            return new PaperMargins(top, _right, _bottom, _left);
         }
 
-        public string Left
+        public PaperMargins Right(Length right)
         {
-            get { return string.Format("{0}{1}", _left.ToString("0.##", CultureInfo.InvariantCulture), _unitOfLength); }
+            return new PaperMargins(_top, right, _bottom, _left);
+        }
+
+        public PaperMargins Botton(Length botton)
+        {
+            return new PaperMargins(_top, _right, botton, _left);
+        }
+
+        public PaperMargins Left(Length left)
+        {
+            return new PaperMargins(_top, _right, _bottom, left);
+        }
+
+        public string TopSetting
+        {
+            get { return _top.SettingString; }
+        }
+
+        public string RightSetting
+        {
+            get { return _right.SettingString; }
+        }
+
+        public string BottomSetting
+        {
+            get { return _bottom.SettingString; }
+        }
+
+        public string LeftSetting
+        {
+            get { return _left.SettingString; }
         }
     }
 }

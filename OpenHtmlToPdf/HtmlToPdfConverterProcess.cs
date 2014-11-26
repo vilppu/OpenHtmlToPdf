@@ -66,7 +66,7 @@ namespace OpenHtmlToPdf
         {
             return new ProcessStartInfo
             {
-                FileName = typeof(ConversionSource).Assembly.GetName().Name + ".exe",
+                FileName = ConverterExeutable.PathToConverterExecutable(),
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,

@@ -17,13 +17,13 @@ namespace OpenHtmlToPdf
                 .WithGlobalSetting("size.height", paperSize.Height);
         }
 
-        public static IPdfDocument With(this IPdfDocument pdfDocument, PaperMargins paperMargins)
+        public static IPdfDocument WithMargins(this IPdfDocument pdfDocument, PaperMargins paperMargins)
         {
             return pdfDocument
-                .WithGlobalSetting("margin.bottom", paperMargins.Bottom)
-                .WithGlobalSetting("margin.left", paperMargins.Left)
-                .WithGlobalSetting("margin.right", paperMargins.Right)
-                .WithGlobalSetting("margin.top", paperMargins.Top);
+                .WithGlobalSetting("margin.bottom", paperMargins.BottomSetting)
+                .WithGlobalSetting("margin.left", paperMargins.LeftSetting)
+                .WithGlobalSetting("margin.right", paperMargins.RightSetting)
+                .WithGlobalSetting("margin.top", paperMargins.TopSetting);
         }
         
         public static IPdfDocument WithResolution(this IPdfDocument pdfDocument, int dpi)

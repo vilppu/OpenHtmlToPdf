@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -94,7 +95,7 @@ namespace OpenHtmlToPdf.Tests
         {
             var html = string.Format(HtmlDocumentFormat, "");
 
-            Document.From(html).With(new PaperMargins(5, "mm")).Content();
+            Document.From(html).WithMargins(PaperMargins.All(Length.Millimeters(5))).Content();
         }
 
         [TestMethod]
@@ -111,6 +112,19 @@ namespace OpenHtmlToPdf.Tests
             var html = string.Format(HtmlDocumentFormat, "");
 
             Document.From(html).Oriented(PaperOrientation.Landscape).Content();
+        }
+
+        [TestMethod]
+        public void Is_directory_agnostic()
+        {
+            const string expectedDocumentContent = "Expected document content";
+            var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
+
+
+            Directory.SetCurrentDirectory(@"c:\");
+            var result = Document.From(html).Content();
+
+            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(result));
         }
     }
 }

@@ -105,8 +105,10 @@
     <Reference Include="System.IO.Compression" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConverterExeutable.cs" />
     <Compile Include="DocumentCreationFailedException.cs" />
     <Compile Include="IPdfDocument.cs" />
+    <Compile Include="Length.cs" />
     <Compile Include="PaperOrientation.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="ContentSettings.cs" />
