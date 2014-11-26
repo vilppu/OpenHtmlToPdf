@@ -14,7 +14,7 @@ namespace OpenHtmlToPdf
 
         public static IPdfDocument WithOutline(this IPdfDocument pdfDocument)
         {
-            return pdfDocument.WithGlobalSetting( "outline", "true");
+            return pdfDocument.WithGlobalSetting("outline", "true");
         }
 
         public static IPdfDocument EncodedWith(this IPdfDocument pdfDocument, string encoding)

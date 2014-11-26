@@ -4,10 +4,16 @@ namespace OpenHtmlToPdf
 {
     public static class PaperSettings
     {
-        public static IPdfDocument Oriented(this IPdfDocument pdfDocument, PaperOrientation paperOrientation)
+        public static IPdfDocument Landscape(this IPdfDocument pdfDocument)
         {
             return pdfDocument
-                .WithGlobalSetting("orientation", paperOrientation.Orientation);
+                .WithGlobalSetting("orientation", "Landscape");
+        }
+
+        public static IPdfDocument Portrait(this IPdfDocument pdfDocument)
+        {
+            return pdfDocument
+                .WithGlobalSetting("orientation", "Portrait");
         }
 
         public static IPdfDocument OfSize(this IPdfDocument pdfDocument, PaperSize paperSize)

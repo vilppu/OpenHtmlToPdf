@@ -28,12 +28,20 @@ namespace OpenHtmlToPdf
         {
             process.WriteToStandardInput(conversionSource);
 
-            var readBase64EncodedPdfFromStandardOutput = process.ReadBase64EncodedPdfFromStandardOutput();
-            var pdf = System.Convert.FromBase64String(readBase64EncodedPdfFromStandardOutput);
+            var base64EncodedPdf = process.ReadBase64EncodedPdfFromStandardOutput();
+            var pdf = System.Convert.FromBase64String(base64EncodedPdf);
 
             RaiseExceptionIfErrorOccured(process);
+            RaiseExceptionIfEmpty(base64EncodedPdf);
 
             return pdf;
+        }
+
+        // ReSharper disable once UnusedParameter.Local
+        private static void RaiseExceptionIfEmpty(string base64EncodedPdf)
+        {
+            if (string.IsNullOrWhiteSpace(base64EncodedPdf))
+                throw new PdfDocumentCreationFailedException("Empty document generated");
         }
 
         private static void RaiseExceptionIfErrorOccured(Process process)

@@ -109,7 +109,6 @@
     <Compile Include="DocumentCreationFailedException.cs" />
     <Compile Include="IPdfDocument.cs" />
     <Compile Include="Length.cs" />
-    <Compile Include="PaperOrientation.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="ContentSettings.cs" />
     <Compile Include="PaperSettings.cs" />
