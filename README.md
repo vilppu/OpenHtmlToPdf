@@ -22,7 +22,7 @@ OpenHtmlToPdf can be download as a [NuGet package] (https://www.nuget.org/packag
                 .From(html)
                 .Content();
 
-###Generate PDF with with specific settings
+###Generate PDF with specific settings
             const string html =
                 "<!DOCTYPE html>" +
                 "<html>" +
