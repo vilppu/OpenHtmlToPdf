@@ -11,6 +11,8 @@ namespace OpenHtmlToPdf.Tests
     public class HtmlToPdfConversion
     {
         private const string HtmlDocumentFormat = "<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Title</title></head><body>{0}</body></html>";
+        private const int _210mmInPostScriptPoints = 595;
+        private const int _297mmInPostScriptPoints = 842;
 
         [TestMethod]
         public void Pdf_document_content()
@@ -18,9 +20,9 @@ namespace OpenHtmlToPdf.Tests
             const string expectedDocumentContent = "Expected document content";
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
 
-            var result = Document.From(html).Content();
+            var result = Pdf.From(html).Content();
 
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(result));
+            TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(result));
         }
 
         [TestMethod]
@@ -29,9 +31,9 @@ namespace OpenHtmlToPdf.Tests
             const string expectedDocumentContent = "Äöåõ";
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
 
-            var result = Document.From(html).EncodedWith("utf-8").Content();
+            var result = Pdf.From(html).EncodedWith("utf-8").Content();
 
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(result));
+            TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(result));
         }
 
         [TestMethod]
@@ -41,10 +43,10 @@ namespace OpenHtmlToPdf.Tests
             const string expectedDocumentContent = "Expected document content";
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
 
-            var result = Document.From(html).WithTitle(expectedTitle).Content();
+            var result = Pdf.From(html).WithTitle(expectedTitle).Content();
 
-            Assert.AreEqual(expectedTitle, PdfDocument.Title(result));
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(result));
+            Assert.AreEqual(expectedTitle, PdfDocumentReader.Title(result));
+            TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(result));
         }
 
         [TestMethod]
@@ -53,35 +55,11 @@ namespace OpenHtmlToPdf.Tests
             const string expectedDocumentContent = "Expected document content";
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
 
-            var result = Document.From(html).OfSize(PaperSize.A4).Content();
+            var result = Pdf.From(html).OfSize(PaperSize.A4).Content();
 
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(result));
-            Assert.AreEqual(595, PdfDocument.WidthOfFirstPage(result)); // 210mm is 595 PostScript points where 1 pt = 25.4/72 mm
-            Assert.AreEqual(842, PdfDocument.HeightOfFirstPage(result)); // 297mm is 842 PostScript points where 1 pt = 25.4/72 mm
-        }
-
-        [TestMethod]
-        public void Margins()
-        {
-            const string expectedDocumentContent = "Expected document content";
-
-            var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
-
-            var result = Document.From(html).WithMargins(PaperMargins.All(Length.Millimeters(5))).Content();
-
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(result));
-        }
-
-        [TestMethod]
-        public void Outline()
-        {
-            const string expectedDocumentContent = "Expected document content";
-
-            var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
-
-            var result = Document.From(html).WithOutline().Content();
-
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(result));
+            TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(result));
+            Assert.AreEqual(_210mmInPostScriptPoints, PdfDocumentReader.WidthOfFirstPage(result));
+            Assert.AreEqual(_297mmInPostScriptPoints, PdfDocumentReader.HeightOfFirstPage(result));
         }
 
         [TestMethod]
@@ -91,9 +69,11 @@ namespace OpenHtmlToPdf.Tests
 
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
 
-            var result = Document.From(html).Portrait().Content();
+            var result = Pdf.From(html).Portrait().Content();
 
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(result));
+            TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(result));
+            Assert.AreEqual(_210mmInPostScriptPoints, PdfDocumentReader.WidthOfFirstPage(result));
+            Assert.AreEqual(_297mmInPostScriptPoints, PdfDocumentReader.HeightOfFirstPage(result));
         }
 
         [TestMethod]
@@ -103,9 +83,35 @@ namespace OpenHtmlToPdf.Tests
 
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
 
-            var result = Document.From(html).Landscape().Content();
+            var result = Pdf.From(html).Landscape().Content();
 
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(result));
+            TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(result));
+            Assert.AreEqual(_297mmInPostScriptPoints, PdfDocumentReader.WidthOfFirstPage(result));
+            Assert.AreEqual(_210mmInPostScriptPoints, PdfDocumentReader.HeightOfFirstPage(result));
+        }
+
+        [TestMethod]
+        public void Margins()
+        {
+            const string expectedDocumentContent = "Expected document content";
+
+            var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
+
+            var result = Pdf.From(html).WithMargins(PaperMargins.All(Length.Millimeters(5))).Content();
+
+            TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(result));
+        }
+
+        [TestMethod]
+        public void Outline()
+        {
+            const string expectedDocumentContent = "Expected document content";
+
+            var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
+
+            var result = Pdf.From(html).WithOutline().Content();
+
+            TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(result));
         }
 
         [TestMethod]
@@ -115,9 +121,9 @@ namespace OpenHtmlToPdf.Tests
 
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
 
-            var result = Document.From(html).Comressed().Content();
+            var result = Pdf.From(html).Comressed().Content();
 
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(result));
+            TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(result));
         }
 
         [TestMethod]
@@ -127,9 +133,9 @@ namespace OpenHtmlToPdf.Tests
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
 
             Directory.SetCurrentDirectory(@"c:\");
-            var result = Document.From(html).Content();
+            var result = Pdf.From(html).Content();
 
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(result));
+            TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(result));
         }
 
         [TestMethod]
@@ -141,12 +147,12 @@ namespace OpenHtmlToPdf.Tests
             var tasks = new List<Task<byte[]>>();
 
             for (var i = 0; i < documentCount; i++)
-                tasks.Add(Task.Run(() => Document.From(html).Content()));
+                tasks.Add(Task.Run(() => Pdf.From(html).Content()));
 
             Task.WaitAll(tasks.OfType<Task>().ToArray());
 
             foreach (var task in tasks)
-                TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(task.Result));
+                TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(task.Result));
         }
 
         [TestMethod]
@@ -155,13 +161,13 @@ namespace OpenHtmlToPdf.Tests
             const string expectedDocumentContent = "Expected document content";
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
 
-            var first = Document.From(html).Content();
-            var second = Document.From(html).Content();
-            var third = Document.From(html).Content();
+            var first = Pdf.From(html).Content();
+            var second = Pdf.From(html).Content();
+            var third = Pdf.From(html).Content();
 
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(first));
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(second));
-            TextAssert.AreEqual(expectedDocumentContent, PdfDocument.ToText(third));
+            TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(first));
+            TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(second));
+            TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(third));
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.Serialization.Json;
 using System.Text;
-using Newtonsoft.Json;
 using OpenHtmlToPdf.WkHtmlToPdf.WkHtmlToX;
 
 namespace OpenHtmlToPdf.WkHtmlToPdf
@@ -69,7 +69,10 @@ namespace OpenHtmlToPdf.WkHtmlToPdf
 
         private static T DeserializeBase64EncodedSource<T>(string base64EncodedObject)
         {
-            return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(Convert.FromBase64String(base64EncodedObject)));
+            using (var stream = new MemoryStream(Convert.FromBase64String(base64EncodedObject)))
+            {
+                return (T)new DataContractJsonSerializer(typeof(T)).ReadObject(stream);
+            }
         }
 
         private static byte[] ConvertToPdf(ConversionSource conversionSource)
@@ -92,7 +95,7 @@ namespace OpenHtmlToPdf.WkHtmlToPdf
 
         private static void WriteAsBase64EncodedString(this TextWriter writer, string str)
         {
-            writer.Write(Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(str))));
+            writer.Write(Convert.ToBase64String(Encoding.UTF8.GetBytes(str)));
         }
     }
 }

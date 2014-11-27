@@ -61,13 +61,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenHtmlToPdf\OpenHtmlToPdf.csproj">
-      <Project>{023df833-b252-48b3-b6af-dbbb13e39b13}</Project>
-      <Name>WebKitHtmlToPdf</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\OpenHtmlToPdf\OpenHtmlToPdf.csproj">
+      <Project>{023df833-b252-48b3-b6af-dbbb13e39b13}</Project>
+      <Name>OpenHtmlToPdf</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

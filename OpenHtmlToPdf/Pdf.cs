@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace OpenHtmlToPdf
 {
-    public sealed class Document
+    public sealed class Pdf
     {
         public static IPdfDocument From(string html)
         {

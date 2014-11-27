@@ -2,7 +2,7 @@
 
 namespace OpenHtmlToPdf
 {
-    public class Length
+    public sealed class Length
     {
         private readonly double _length;
         private readonly object _unitOfLength;

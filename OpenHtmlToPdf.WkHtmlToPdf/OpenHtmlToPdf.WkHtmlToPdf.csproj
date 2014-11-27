@@ -35,14 +35,15 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,11 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\BundledFile.cs" />
-    <Compile Include="Assets\BundledFiles.Designer.cs">
-      <DependentUpon>BundledFiles.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Assets\ZipArchiveHelper.cs" />
     <Compile Include="ConversionSource.cs" />
     <Compile Include="Interop\IntCallback.cs" />
@@ -74,14 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Assets\wkhtmltox.zip" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Assets\BundledFiles.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>BundledFiles.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Assets\wkhtmltox.zip" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
@@ -91,6 +80,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(ProjectName).exe" "$(SolutionDir)OpenHtmlToPdf\Assets\$(ProjectName).exe</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

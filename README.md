@@ -11,34 +11,48 @@ OpenHtmlToPdf can be download as a [NuGet package] (https://www.nuget.org/packag
 ##Usage
 
 ###Generate PDF with default settings
-            const string html =
-                "<!DOCTYPE html>" +
-                "<html>" +
-                "<head><meta charset='UTF-8'><title>Title</title></head>" +
-                "<body>Body text...</body>" +
-                "</html>";
+	const string html =
+		"<!DOCTYPE html>" +
+		"<html>" +
+		"<head><meta charset='UTF-8'><title>Title</title></head>" +
+		"<body>Body text...</body>" +
+		"</html>";
 
-            var pdf = Document
-                .From(html)
-                .Content();
+	var pdf = Pdf
+		.From(html)
+		.Content();
 
-###Generate PDF with specific settings
-            const string html =
-                "<!DOCTYPE html>" +
-                "<html>" +
-                "<head><meta charset='UTF-8'><title>Title</title></head>" +
-                "<body>Body text...</body>" +
-                "</html>";
+###Defining fluent settings
+	const string html =
+		"<!DOCTYPE html>" +
+		"<html>" +
+		"<head><meta charset='UTF-8'><title>Title</title></head>" +
+		"<body>Body text...</body>" +
+		"</html>";
 
-            var pdf = Document
-                .From(html)
-                .WithTitle("Title")
-                .OfSize(PaperSize.A4)
-                .WithMargins(PaperMargins.All(Length.Millimeters(1.5)))
-                .Comressed()
-                .Portrait()
-                .WithOutline()
-                .Content();
+	var pdf = Pdf
+		.From(html)
+		.OfSize(PaperSize.A4)
+		.WithTitle("Title")
+		.WithOutline()
+		.WithMargins(PaperMargins.All(1.5.Millimeters()))
+		.Portrait()
+		.Comressed()
+		.Content();
+
+###Defining wkhtmltopdf settings directly
+	const string html =
+		"<!DOCTYPE html>" +
+		"<html>" +
+		"<head><meta charset='UTF-8'><title>Title</title></head>" +
+		"<body>Body text...</body>" +
+		"</html>";
+
+	var pdf = Pdf
+		.From(html)
+		.WithGlobalSetting("orientation", "Landscape")
+		.WithObjectSetting("web.defaultEncoding", "utf-8")
+		.Content();
 License
 -------
 

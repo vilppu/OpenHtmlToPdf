@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Reflection;
 using OpenHtmlToPdf.WkHtmlToPdf.Assets;
 using OpenHtmlToPdf.WkHtmlToPdf.Interop;
 
@@ -30,7 +31,14 @@ namespace OpenHtmlToPdf.WkHtmlToPdf.WkHtmlToX
 
         private static ZipArchive WkHtmlToXZipArchive()
         {
-            return new ZipArchive(new MemoryStream(BundledFiles.wkhtmltox));
+            return new ZipArchive(GetManifestResourceStream());
+        }
+
+        private static Stream GetManifestResourceStream()
+        {
+            return Assembly
+                .GetExecutingAssembly()
+                .GetManifestResourceStream("OpenHtmlToPdf.WkHtmlToPdf.Assets.wkhtmltox.zip");
         }
 
         private static string CompressedLibraryFilename()

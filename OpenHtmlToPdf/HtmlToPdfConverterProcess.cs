@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Runtime.Serialization.Json;
 using System.Text;
-using Newtonsoft.Json;
+using OpenHtmlToPdf.Assets;
 using OpenHtmlToPdf.WkHtmlToPdf;
 
 namespace OpenHtmlToPdf
@@ -67,14 +69,25 @@ namespace OpenHtmlToPdf
 
         private static string SerializeToBase64EncodedString(ConversionSource conversionSource)
         {
-            return System.Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(conversionSource)));
+            var result = SerializeToJson(conversionSource);
+            return System.Convert.ToBase64String(Encoding.UTF8.GetBytes(result));
+        }
+
+        private static string SerializeToJson(ConversionSource conversionSource)
+        {
+            using (var stream = new MemoryStream())
+            {
+                new DataContractJsonSerializer(typeof(ConversionSource)).WriteObject(stream, conversionSource);
+                stream.Position = 0;
+                return new StreamReader(stream).ReadToEnd();
+            }
         }
 
         private static ProcessStartInfo GetProcessStartInfo()
         {
             return new ProcessStartInfo
             {
-                FileName = ConverterExeutable.PathToConverterExecutable(),
+                FileName = ConverterExecutable.Get().FullConverterExecutableFilename,
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
