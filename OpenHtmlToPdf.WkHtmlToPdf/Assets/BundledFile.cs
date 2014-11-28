@@ -61,13 +61,12 @@ namespace OpenHtmlToPdf.WkHtmlToPdf.Assets
 
         private static string BundledFilesDirectory()
         {
-            return Path.Combine(Path.GetTempPath(), CurrentAssemblyNameAndVersion());
+            return Path.Combine(Path.GetTempPath(), "OpenHtmlToPdf", Version());
         }
 
-        private static string CurrentAssemblyNameAndVersion()
+        private static string Version()
         {
-            return string.Format("{0}_{1}_{2}",
-                Assembly.GetExecutingAssembly().GetName().Name,
+            return string.Format("{0}_{1}",
                 Assembly.GetExecutingAssembly().GetName().Version,
                 Environment.Is64BitProcess ? 64 : 32);
         }

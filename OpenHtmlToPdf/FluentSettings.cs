@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 
 namespace OpenHtmlToPdf
@@ -17,6 +18,11 @@ namespace OpenHtmlToPdf
         public static IPdfDocument WithOutline(this IPdfDocument pdfDocument)
         {
             return pdfDocument.WithGlobalSetting("outline", "true");
+        }
+
+        public static IPdfDocument WithoutOutline(this IPdfDocument pdfDocument)
+        {
+            return pdfDocument.WithGlobalSetting("outline", "false");
         }
 
         public static IPdfDocument EncodedWith(this IPdfDocument pdfDocument, string encoding)
@@ -43,13 +49,18 @@ namespace OpenHtmlToPdf
                 .WithGlobalSetting("size.height", paperSize.Height);
         }
 
-        public static IPdfDocument WithMargins(this IPdfDocument pdfDocument, PaperMargins paperMargins)
+        public static IPdfDocument WithMargins(this IPdfDocument pdfDocument, Func<PaperMargins,PaperMargins>  paperMargins)
+        {
+            return pdfDocument.WithMargins(paperMargins(PaperMargins.None()));
+        }
+
+        public static IPdfDocument WithMargins(this IPdfDocument pdfDocument, PaperMargins margins)
         {
             return pdfDocument
-                .WithGlobalSetting("margin.bottom", paperMargins.BottomSetting)
-                .WithGlobalSetting("margin.left", paperMargins.LeftSetting)
-                .WithGlobalSetting("margin.right", paperMargins.RightSetting)
-                .WithGlobalSetting("margin.top", paperMargins.TopSetting);
+                .WithGlobalSetting("margin.bottom", margins.BottomSetting)
+                .WithGlobalSetting("margin.left", margins.LeftSetting)
+                .WithGlobalSetting("margin.right", margins.RightSetting)
+                .WithGlobalSetting("margin.top", margins.TopSetting);
         }
 
         public static IPdfDocument WithResolution(this IPdfDocument pdfDocument, int dpi)

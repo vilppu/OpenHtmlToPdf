@@ -97,19 +97,31 @@ namespace OpenHtmlToPdf.Tests
 
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
 
-            var result = Pdf.From(html).WithMargins(PaperMargins.All(Length.Millimeters(5))).Content();
+            var result = Pdf.From(html).WithMargins(1.25.Centimeters()).Content();
 
             TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(result));
         }
 
         [TestMethod]
-        public void Outline()
+        public void With_outline()
         {
             const string expectedDocumentContent = "Expected document content";
 
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
 
             var result = Pdf.From(html).WithOutline().Content();
+
+            TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(result));
+        }
+
+        [TestMethod]
+        public void Without_outline()
+        {
+            const string expectedDocumentContent = "Expected document content";
+
+            var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
+
+            var result = Pdf.From(html).WithoutOutline().Content();
 
             TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(result));
         }

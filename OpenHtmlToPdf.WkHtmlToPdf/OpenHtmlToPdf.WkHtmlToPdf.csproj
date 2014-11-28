@@ -51,6 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\OpenHtmlToPdf\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Assets\BundledFile.cs" />
     <Compile Include="Assets\ZipArchiveHelper.cs" />
     <Compile Include="ConversionSource.cs" />
@@ -61,7 +64,6 @@
     <Compile Include="Interop\UTF8Marshaller.cs" />
     <Compile Include="Interop\VoidCallback.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WkHtmlToX\ConversionFailedException.cs" />
     <Compile Include="WkHtmlToX\WkHtmlToPdf.cs" />
     <Compile Include="WkHtmlToX\WkHtmlToPdfContext.cs" />

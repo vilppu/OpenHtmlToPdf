@@ -7,8 +7,8 @@
         private readonly Length _bottom;
         private readonly Length _left;
 
-        private PaperMargins(Length all)
-            : this(all, all, all, all)
+        private PaperMargins(Length allMargins)
+            : this(allMargins, allMargins, allMargins, allMargins)
         {
         }
 
@@ -20,17 +20,12 @@
             _left = left;
         }
 
-        public static PaperMargins All(Length length)
+        public static PaperMargins All(Length allMargins)
         {
-            return new PaperMargins(length);
+            return new PaperMargins(allMargins);
         }
 
         public static PaperMargins None()
-        {
-            return new PaperMargins(Length.Zero());
-        }
-
-        public static PaperMargins Build()
         {
             return new PaperMargins(Length.Zero());
         }
@@ -53,6 +48,11 @@
         public PaperMargins Left(Length left)
         {
             return new PaperMargins(_top, _right, _bottom, left);
+        }
+
+        public static implicit operator PaperMargins(Length allMargins)
+        {
+            return new PaperMargins(allMargins);
         }
 
         public string TopSetting

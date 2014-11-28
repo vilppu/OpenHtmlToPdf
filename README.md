@@ -34,13 +34,16 @@ OpenHtmlToPdf can be download as a [NuGet package] (https://www.nuget.org/packag
 		.From(html)
 		.OfSize(PaperSize.A4)
 		.WithTitle("Title")
-		.WithOutline()
-		.WithMargins(PaperMargins.All(1.5.Millimeters()))
+		.WithoutOutline()
+		.WithMargins(1.25.Centimeters())
 		.Portrait()
 		.Comressed()
 		.Content();
 
 ###Defining wkhtmltopdf settings directly
+
+[settings API documentation](http://wkhtmltopdf.org/libwkhtmltox/pagesettings.html)
+
 	const string html =
 		"<!DOCTYPE html>" +
 		"<html>" +
