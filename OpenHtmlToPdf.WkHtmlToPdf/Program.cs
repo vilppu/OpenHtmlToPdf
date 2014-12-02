@@ -12,7 +12,7 @@ namespace OpenHtmlToPdf.WkHtmlToPdf
         {
             try
             {
-                WritePdfToStandardOutput(ConvertStandardInputToBase64EncodedPdf());
+                ConvertStandardInputToPdf();
 
                 return 0;
             }
@@ -35,25 +35,9 @@ namespace OpenHtmlToPdf.WkHtmlToPdf
             }
         }
 
-        private static void WritePdfToStandardOutput(string convertStandardInputToBase64EncodedPdf)
+        private static void ConvertStandardInputToPdf()
         {
-            using (var standardOutput = Console.OpenStandardOutput())
-            {
-                using (var writer = new StreamWriter(standardOutput))
-                {
-                    writer.Write(convertStandardInputToBase64EncodedPdf);
-                }
-            }
-        }
-
-        private static string ConvertStandardInputToBase64EncodedPdf()
-        {
-            return Convert.ToBase64String(ConvertStandardInputToPdf());
-        }
-
-        private static byte[] ConvertStandardInputToPdf()
-        {
-            return ConvertToPdf(ConversionSource());
+            ConvertToPdf(ConversionSource());
         }
 
         private static ConversionSource ConversionSource()
@@ -75,7 +59,7 @@ namespace OpenHtmlToPdf.WkHtmlToPdf
             }
         }
 
-        private static byte[] ConvertToPdf(ConversionSource conversionSource)
+        private static void ConvertToPdf(ConversionSource conversionSource)
         {
             using (var wkhtmlToPdfContext = WkHtmlToPdfContext.Create())
             {
@@ -89,7 +73,7 @@ namespace OpenHtmlToPdf.WkHtmlToPdf
                         objectSetting.Key,
                         objectSetting.Value);
 
-                return wkhtmlToPdfContext.Render(conversionSource.Html);
+                wkhtmlToPdfContext.Convert(conversionSource.Html);
             }
         }
 

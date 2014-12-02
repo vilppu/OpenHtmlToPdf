@@ -51,7 +51,20 @@ namespace OpenHtmlToPdf
 
             public byte[] Content()
             {
-                return HtmlToPdfConverterProcess.ConvertToPdf(_html, _globalSettings, _objectSettings);
+                return ReadContentUsingTemporaryFile(TemporaryPdf.TemporaryFilePath());
+            }
+
+            private byte[] ReadContentUsingTemporaryFile(string temporaryFilename)
+            {
+                _globalSettings["out"] = temporaryFilename;
+
+                HtmlToPdfConverterProcess.ConvertToPdf(_html, _globalSettings, _objectSettings);
+
+                var content = TemporaryPdf.ReadTemporaryFileContent(temporaryFilename);
+
+                TemporaryPdf.DeleteTemporaryFile(temporaryFilename);
+
+                return content;
             }
         }
     }

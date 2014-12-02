@@ -181,5 +181,33 @@ namespace OpenHtmlToPdf.Tests
             TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(second));
             TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(third));
         }
+
+        [TestMethod]
+        public void No_temporary_files_are_left_behind()
+        {
+            const string expectedDocumentContent = "Expected document content";
+            var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
+
+            Pdf.From(html).Content();
+
+            Assert.AreEqual(0, Directory.GetFiles(Path.Combine(Path.GetTempPath(), "OpenHtmlToPdf"), "*.pdf").Count());
+        }
+
+        [TestMethod]
+        public void Convert_massive_number_of_documents()
+        {
+            const string expectedDocumentContent = "Expected document content";
+            const int documentCount = 100;
+            var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
+            var tasks = new List<Task<byte[]>>();
+
+            for (var i = 0; i < documentCount; i++)
+                tasks.Add(Task.Run(() => Pdf.From(html).Content()));
+
+            Task.WaitAll(tasks.OfType<Task>().ToArray());
+
+            foreach (var task in tasks)
+                TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(task.Result));
+        }
     }
 }

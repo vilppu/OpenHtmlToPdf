@@ -10,55 +10,33 @@ namespace OpenHtmlToPdf
 {
     static class HtmlToPdfConverterProcess
     {
-        public static byte[] ConvertToPdf(
+        public static void ConvertToPdf(
             string html,
             IDictionary<string, string> globalSettings,
             IDictionary<string, string> objectSettings)
         {
-            return Convert(ToConversionSource(html, globalSettings, objectSettings));
+            Convert(ToConversionSource(html, globalSettings, objectSettings));
         }
 
-        private static byte[] Convert(ConversionSource conversionSource)
+        private static void Convert(ConversionSource conversionSource)
         {
             var processStartInfo = GetProcessStartInfo();
             var process = Process.Start(processStartInfo);
 
-            return process.Convert(conversionSource);
+            process.Convert(conversionSource);
         }
 
-        private static byte[] Convert(this Process process, ConversionSource conversionSource)
+        private static void Convert(this Process process, ConversionSource conversionSource)
         {
             process.WriteToStandardInput(conversionSource);
-
-            var base64EncodedPdf = process.ReadBase64EncodedPdfFromStandardOutput();
-            var pdf = System.Convert.FromBase64String(base64EncodedPdf);
-
+            process.WaitForExit();
             RaiseExceptionIfErrorOccured(process);
-            RaiseExceptionIfEmpty(base64EncodedPdf);
-
-            return pdf;
-        }
-
-        // ReSharper disable once UnusedParameter.Local
-        private static void RaiseExceptionIfEmpty(string base64EncodedPdf)
-        {
-            if (string.IsNullOrWhiteSpace(base64EncodedPdf))
-                throw new PdfDocumentCreationFailedException("Empty document generated");
         }
 
         private static void RaiseExceptionIfErrorOccured(Process process)
         {
             if (process.ExitCode != 0)
                 throw new PdfDocumentCreationFailedException(process.StandardError.ReadToEnd());
-        }
-
-        private static string ReadBase64EncodedPdfFromStandardOutput(this Process process)
-        {
-            var base64EncodedPdf = process.StandardOutput.ReadToEnd();
-
-            process.WaitForExit();
-
-            return base64EncodedPdf;
         }
 
         private static void WriteToStandardInput(this Process process, ConversionSource conversionSource)
