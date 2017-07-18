@@ -1,16 +1,16 @@
-#OpenHtmlToPdf
+# OpenHtmlToPdf #
 
 .NET library for rendering HTML documents to PDF format. 
 
 OpenHtmlToPdf uses [WkHtmlToPdf](http://github.com/antialize/wkhtmltopdf) native Windows library for HTML to PDF rendering.
 
-##Download
+## Download ##
 
 OpenHtmlToPdf can be download as a [NuGet package] (https://www.nuget.org/packages/OpenHtmlToPdf/)
 
-##Usage
+## Usage ##
 
-###Generate PDF with default settings
+### Generate PDF with default settings ###
 	const string html =
 		"<!DOCTYPE html>" +
 		"<html>" +
@@ -22,7 +22,7 @@ OpenHtmlToPdf can be download as a [NuGet package] (https://www.nuget.org/packag
 		.From(html)
 		.Content();
 
-###Defining fluent settings
+### Defining fluent settings ###
 	const string html =
 		"<!DOCTYPE html>" +
 		"<html>" +
@@ -40,7 +40,7 @@ OpenHtmlToPdf can be download as a [NuGet package] (https://www.nuget.org/packag
 		.Comressed()
 		.Content();
 
-###Defining wkhtmltopdf settings directly
+### Defining wkhtmltopdf settings directly ###
 
 [Settings API documentation](http://wkhtmltopdf.org/libwkhtmltox/pagesettings.html)
 
@@ -56,8 +56,7 @@ OpenHtmlToPdf can be download as a [NuGet package] (https://www.nuget.org/packag
 		.WithGlobalSetting("orientation", "Landscape")
 		.WithObjectSetting("web.defaultEncoding", "utf-8")
 		.Content();
-License
--------
+#### License ####
 
 This work, "OpenHtmlToPdf", is a derivative of "TuesPechkin" by tuespetre (Derek Gray) used under the Creative Commons Attribution 3.0 license.
 
