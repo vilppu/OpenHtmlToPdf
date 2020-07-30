@@ -32,12 +32,7 @@ namespace OpenHtmlToPdf.WkHtmlToPdf.WkHtmlToX
 
         private static ZipFile WkHtmlToXZipFile()
         {
-            ZipFile zipFile = null;
-            using (zipFile = new ZipFile())
-            {
-                zipFile.Save(GetManifestResourceStream());
-            }
-            return zipFile;
+            return ZipFile.Read(GetManifestResourceStream());
         }
 
         private static Stream GetManifestResourceStream()

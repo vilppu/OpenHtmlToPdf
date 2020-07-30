@@ -95,6 +95,12 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -118,6 +124,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HtmlToPdfConverterProcess.cs" />
     <Compile Include="TemporaryPdf.cs" />
+    <None Include="Key.snk" />
     <None Include="Properties\OpenHtmlToPdf.nuspec" />
   </ItemGroup>
   <ItemGroup />
