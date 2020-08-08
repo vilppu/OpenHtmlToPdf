@@ -127,7 +127,9 @@
     <None Include="Key.snk" />
     <None Include="Properties\OpenHtmlToPdf.nuspec" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\DotNetZip.dll" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\OpenHtmlToPdf.WkHtmlToPdf.exe" />
   </ItemGroup>

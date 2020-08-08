@@ -7,6 +7,7 @@ namespace OpenHtmlToPdf.Assets
     sealed class ConverterExecutable
     {
         private const string ConverterExecutableFilename = "OpenHtmlToPdf.WkHtmlToPdf.exe";
+        private const string ConverterExecutableReferenceFilename = "DotNetZip.dll";
 
         private ConverterExecutable()
         {
@@ -21,6 +22,13 @@ namespace OpenHtmlToPdf.Assets
             return bundledFile;
         }
 
+
+        public string FullConverterExecutableReferenceFilename
+        {
+            get { return ResolveFullPathToConverterExecutableReferenceFile(); }
+        }
+
+
         public string FullConverterExecutableFilename
         {
             get { return ResolveFullPathToConverterExecutableFile(); }
@@ -28,13 +36,17 @@ namespace OpenHtmlToPdf.Assets
 
         private void CreateIfConverterExecutableDoesNotExist()
         {
+            if (!File.Exists(FullConverterExecutableReferenceFilename))
+                Create(GetConverterExecutableContent(GetConverterReferenceExecutable()), FullConverterExecutableReferenceFilename);
+
             if (!File.Exists(FullConverterExecutableFilename))
-                Create(GetConverterExecutableContent());
+                Create(GetConverterExecutableContent(GetConverterExecutable()), FullConverterExecutableFilename);
+
         }
 
-        private static byte[] GetConverterExecutableContent()
+        private static byte[] GetConverterExecutableContent(Stream stream)
         {
-            using (var resourceStream = GetConverterExecutable())
+            using (var resourceStream = stream)
             {
                 var resource = new byte[resourceStream.Length];
 
@@ -44,12 +56,21 @@ namespace OpenHtmlToPdf.Assets
             }
         }
 
+
+
         private static Stream GetConverterExecutable()
         {
             return Assembly.GetExecutingAssembly().GetManifestResourceStream("OpenHtmlToPdf.Assets.OpenHtmlToPdf.WkHtmlToPdf.exe");
         }
 
-        private void Create(byte[] fileContent)
+        private static Stream GetConverterReferenceExecutable()
+        {
+            return Assembly.GetExecutingAssembly().GetManifestResourceStream("OpenHtmlToPdf.Assets.DotNetZip.dll");
+        }
+
+
+
+        private void Create(byte[] fileContent, string Name)
         {
             try
             {
@@ -57,7 +78,7 @@ namespace OpenHtmlToPdf.Assets
                     Directory.CreateDirectory(BundledFilesDirectory());
 
 
-                using (var file = File.Open(FullConverterExecutableFilename, FileMode.Create))
+                using (var file = File.Open(Name, FileMode.Create))
                 {
 
                     file.Write(fileContent, 0, fileContent.Length);
@@ -71,6 +92,11 @@ namespace OpenHtmlToPdf.Assets
         private static string ResolveFullPathToConverterExecutableFile()
         {
             return Path.Combine(BundledFilesDirectory(), ConverterExecutableFilename);
+        }
+
+        private static string ResolveFullPathToConverterExecutableReferenceFile()
+        {
+            return Path.Combine(BundledFilesDirectory(), ConverterExecutableReferenceFilename);
         }
 
         private static string BundledFilesDirectory()
