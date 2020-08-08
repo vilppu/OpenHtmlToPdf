@@ -159,7 +159,7 @@ namespace OpenHtmlToPdf.Tests
             var tasks = new List<Task<byte[]>>();
 
             for (var i = 0; i < documentCount; i++)
-                tasks.Add(Task.Run(() => Pdf.From(html).Content()));
+                tasks.Add(Task.Factory.StartNew(() => Pdf.From(html).Content()));
 
             Task.WaitAll(tasks.OfType<Task>().ToArray());
 
@@ -202,7 +202,7 @@ namespace OpenHtmlToPdf.Tests
             var tasks = new List<Task<byte[]>>();
 
             for (var i = 0; i < documentCount; i++)
-                tasks.Add(Task.Run(() => Pdf.From(html).Content()));
+                tasks.Add(Task.Factory.StartNew(() => Pdf.From(html).Content()));
 
             Task.WaitAll(tasks.OfType<Task>().ToArray());
 

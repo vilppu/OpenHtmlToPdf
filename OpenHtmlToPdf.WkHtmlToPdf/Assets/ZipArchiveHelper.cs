@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using Ionic.Zip;
+using System.IO;
 using System.IO.Compression;
 using System.Linq;
 
@@ -6,18 +7,18 @@ namespace OpenHtmlToPdf.WkHtmlToPdf.Assets
 {
     static class ZipArchiveHelper
     {
-        public static byte[] ReadFile(this ZipArchive zipArchive, string filename)
+        public static byte[] ReadFile(this ZipFile zipFile, string filename)
         {
-            return zipArchive.Entries
-                .Where(e => e.FullName == filename)
+            return zipFile.Entries
+                .Where(e => e.FileName == filename)
                 .Select(Read).Single();
         }
 
-        private static byte[] Read(this ZipArchiveEntry zipArchiveEntry)
+        private static byte[] Read(this ZipEntry zipEntry)
         {
-            using (var stream = zipArchiveEntry.Open())
+            using (var stream = zipEntry.OpenReader())
             {
-                return stream.Read(zipArchiveEntry.Length);
+                return stream.Read(zipEntry.UncompressedSize);
             }
         }
 

@@ -2,6 +2,7 @@
 using System.IO;
 using System.IO.Compression;
 using System.Reflection;
+using Ionic.Zip;
 using OpenHtmlToPdf.WkHtmlToPdf.Assets;
 using OpenHtmlToPdf.WkHtmlToPdf.Interop;
 
@@ -23,15 +24,15 @@ namespace OpenHtmlToPdf.WkHtmlToPdf.WkHtmlToX
             if (Environment.OSVersion.Platform != PlatformID.Win32NT)
                 throw new PlatformNotSupportedException(String.Format("Platform {0} is not supported", Platform()));
 
-            using (var wkhtmltoxZipArchive = WkHtmlToXZipArchive())
+            using (var wkhtmltoxZipArchive = WkHtmlToXZipFile())
             {
                 return wkhtmltoxZipArchive.ReadFile(CompressedLibraryFilename());
             }
         }
 
-        private static ZipArchive WkHtmlToXZipArchive()
+        private static ZipFile WkHtmlToXZipFile()
         {
-            return new ZipArchive(GetManifestResourceStream());
+            return ZipFile.Read(GetManifestResourceStream());
         }
 
         private static Stream GetManifestResourceStream()
