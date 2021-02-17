@@ -2,16 +2,22 @@
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Text.RegularExpressions;
 using OpenHtmlToPdf.WkHtmlToPdf.WkHtmlToX;
 
 namespace OpenHtmlToPdf.WkHtmlToPdf
 {
     static class Program
     {
-        static int Main()
+        internal static string TempDir { private set; get; }
+
+        static int Main(string[] args)
         {
             try
             {
+                if (args.Length > 0)
+                    ParseArguments(args);
+
                 ConvertStandardInputToPdf();
 
                 return 0;
@@ -21,6 +27,36 @@ namespace OpenHtmlToPdf.WkHtmlToPdf
                 WriteExceptionMessageToStandardError(ex);
 
                 return -1;
+            }
+        }
+
+        /// <summary>
+        /// Parses the programs arguments.
+        /// </summary>
+        private static void ParseArguments(string[] args)
+        {
+            Regex argument = new Regex(@"^-([^=]+)=(.+)$");
+
+            for (int i = 0; i < args.Length; i++)
+            {
+                Match arg = argument.Match(args[i]);
+                if (arg.Success)
+                {
+                    string
+                        name = arg.Groups[1].Value,
+                        value = arg.Groups[2].Value;
+
+                    switch (name.ToUpper())
+                    {
+                        case "TEMPDIR":
+                            TempDir = value;
+                            break;
+                    }
+                }
+                else
+                {
+                    throw new Exception($"Failed to parse argument \"{args[i]}\"");
+                }
             }
         }
 

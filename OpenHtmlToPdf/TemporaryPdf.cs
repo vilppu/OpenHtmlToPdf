@@ -5,6 +5,11 @@ namespace OpenHtmlToPdf
 {
     public static class TemporaryPdf
     {
+        /// <summary>
+        /// Setting this value overrides the default value for the temporary files folder.
+        /// </summary>
+        public static string TempFilesPath { set; get; }
+
         public static byte[] ReadTemporaryFileContent(string temporaryFilename)
         {
             using (var temporaryFile = new FileStream(temporaryFilename, FileMode.Open, FileAccess.Read))
@@ -32,9 +37,11 @@ namespace OpenHtmlToPdf
             }
         }
 
+        public static string GetTempPath() => TempFilesPath ?? Path.GetTempPath();
+
         public static string TemporaryFilePath()
         {
-            return Path.Combine(Path.GetTempPath(), "OpenHtmlToPdf", TemporaryFilename());
+            return Path.Combine(GetTempPath(), "OpenHtmlToPdf", TemporaryFilename());
         }
 
         private static string TemporaryFilename()

@@ -75,7 +75,7 @@ namespace OpenHtmlToPdf.Assets
 
         private static string BundledFilesDirectory()
         {
-            return Path.Combine(Path.GetTempPath(), "OpenHtmlToPdf", Version());
+            return Path.Combine(TemporaryPdf.GetTempPath(), "OpenHtmlToPdf", Version());
         }
 
         private static string Version()

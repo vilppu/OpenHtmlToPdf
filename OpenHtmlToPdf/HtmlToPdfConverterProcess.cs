@@ -70,7 +70,8 @@ namespace OpenHtmlToPdf
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
-                CreateNoWindow = true
+                CreateNoWindow = true,
+                Arguments = TemporaryPdf.TempFilesPath == null ? null : $"\"-TEMPDIR={TemporaryPdf.TempFilesPath}\""
             };
         }
 
