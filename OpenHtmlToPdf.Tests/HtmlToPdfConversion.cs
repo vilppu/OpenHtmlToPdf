@@ -190,7 +190,7 @@ namespace OpenHtmlToPdf.Tests
 
             Pdf.From(html).Content();
 
-            Assert.AreEqual(0, Directory.GetFiles(Path.Combine(Path.GetTempPath(), "OpenHtmlToPdf"), "*.pdf").Count());
+            Assert.AreEqual(0, Directory.GetFiles(Path.Combine(TemporaryPdf.GetTempPath(), "OpenHtmlToPdf"), "*.pdf").Count());
         }
 
         [TestMethod]
