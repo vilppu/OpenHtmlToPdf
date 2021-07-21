@@ -37,7 +37,7 @@ OpenHtmlToPdf can be download as a [NuGet package] (https://www.nuget.org/packag
 		.WithoutOutline()
 		.WithMargins(1.25.Centimeters())
 		.Portrait()
-		.Comressed()
+		.WithCompression()
 		.Content();
 
 ### Defining wkhtmltopdf settings directly ###
