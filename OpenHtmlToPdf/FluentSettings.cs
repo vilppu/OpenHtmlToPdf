@@ -5,9 +5,20 @@ namespace OpenHtmlToPdf
 {
     public static class FluentSettings
     {
+        [Obsolete]
         public static IPdfDocument Comressed(this IPdfDocument pdfDocument)
         {
+            return WithCompression(pdfDocument);
+        }
+
+        public static IPdfDocument WithCompression(this IPdfDocument pdfDocument)
+        {
             return pdfDocument.WithGlobalSetting("useCompression", "true");
+        }
+
+        public static IPdfDocument WithoutCompression(this IPdfDocument pdfDocument)
+		{
+            return pdfDocument.WithGlobalSetting("useCompression", "false");
         }
 
         public static IPdfDocument WithTitle(this IPdfDocument pdfDocument, string title)

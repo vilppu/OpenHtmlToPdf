@@ -127,15 +127,31 @@ namespace OpenHtmlToPdf.Tests
         }
 
         [TestMethod]
-        public void Compressed()
+        public void With_compression()
         {
             const string expectedDocumentContent = "Expected document content";
+            const int expectedContentSize = 7922;
 
             var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
 
-            var result = Pdf.From(html).Comressed().Content();
+            var result = Pdf.From(html).WithCompression().Content();
 
             TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(result));
+            Assert.AreEqual(expectedContentSize, result.Length);
+        }
+
+        [TestMethod]
+        public void Without_compression()
+        {
+            const string expectedDocumentContent = "Expected document content";
+            const int expectedContentSize = 17880;
+
+            var html = string.Format(HtmlDocumentFormat, expectedDocumentContent);
+
+            var result = Pdf.From(html).WithoutCompression().Content();
+
+            TextAssert.AreEqual(expectedDocumentContent, PdfDocumentReader.ToText(result));
+            Assert.AreEqual(expectedContentSize, result.Length);
         }
 
         [TestMethod]
