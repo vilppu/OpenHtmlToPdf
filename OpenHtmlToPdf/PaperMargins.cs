@@ -40,9 +40,9 @@
             return new PaperMargins(_top, right, _bottom, _left);
         }
 
-        public PaperMargins Botton(Length botton)
+        public PaperMargins Bottom(Length _bottom)
         {
-            return new PaperMargins(_top, _right, botton, _left);
+            return new PaperMargins(_top, _right, _bottom, _left);
         }
 
         public PaperMargins Left(Length left)
