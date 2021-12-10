@@ -11,51 +11,54 @@ OpenHtmlToPdf can be download as a [NuGet package] (https://www.nuget.org/packag
 ## Usage ##
 
 ### Generate PDF with default settings ###
-	const string html =
-		"<!DOCTYPE html>" +
-		"<html>" +
-		"<head><meta charset='UTF-8'><title>Title</title></head>" +
-		"<body>Body text...</body>" +
-		"</html>";
+```csharp
+const string html =
+	"<!DOCTYPE html>" +
+	"<html>" +
+	"<head><meta charset='UTF-8'><title>Title</title></head>" +
+	"<body>Body text...</body>" +
+	"</html>";
 
-	var pdf = Pdf
-		.From(html)
-		.Content();
-
+var pdf = Pdf
+	.From(html)
+	.Content();
+```
 ### Defining fluent settings ###
-	const string html =
-		"<!DOCTYPE html>" +
-		"<html>" +
-		"<head><meta charset='UTF-8'><title>Title</title></head>" +
-		"<body>Body text...</body>" +
-		"</html>";
+```csharp
+const string html =
+	"<!DOCTYPE html>" +
+	"<html>" +
+	"<head><meta charset='UTF-8'><title>Title</title></head>" +
+	"<body>Body text...</body>" +
+	"</html>";
 
-	var pdf = Pdf
-		.From(html)
-		.OfSize(PaperSize.A4)
-		.WithTitle("Title")
-		.WithoutOutline()
-		.WithMargins(1.25.Centimeters())
-		.Portrait()
-		.Comressed()
-		.Content();
-
+var pdf = Pdf
+	.From(html)
+	.OfSize(PaperSize.A4)
+	.WithTitle("Title")
+	.WithoutOutline()
+	.WithMargins(1.25.Centimeters())
+	.Portrait()
+	.Comressed()
+	.Content();
+```
 ### Defining wkhtmltopdf settings directly ###
 
 [Settings API documentation](http://wkhtmltopdf.org/libwkhtmltox/pagesettings.html)
+```csharp
+const string html =
+	"<!DOCTYPE html>" +
+	"<html>" +
+	"<head><meta charset='UTF-8'><title>Title</title></head>" +
+	"<body>Body text...</body>" +
+	"</html>";
 
-	const string html =
-		"<!DOCTYPE html>" +
-		"<html>" +
-		"<head><meta charset='UTF-8'><title>Title</title></head>" +
-		"<body>Body text...</body>" +
-		"</html>";
-
-	var pdf = Pdf
-		.From(html)
-		.WithGlobalSetting("orientation", "Landscape")
-		.WithObjectSetting("web.defaultEncoding", "utf-8")
-		.Content();
+var pdf = Pdf
+	.From(html)
+	.WithGlobalSetting("orientation", "Landscape")
+	.WithObjectSetting("web.defaultEncoding", "utf-8")
+	.Content();
+```
 #### License ####
 
 This work, "OpenHtmlToPdf", is a derivative of "TuesPechkin" by tuespetre (Derek Gray) used under the Creative Commons Attribution 3.0 license.
