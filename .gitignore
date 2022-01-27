@@ -11,3 +11,5 @@ packages
 TestResults
 *.nupkg
 OpenHtmlToPdf.sln.DotSettings
+**/.vs/*
+**/.vshistory/*
